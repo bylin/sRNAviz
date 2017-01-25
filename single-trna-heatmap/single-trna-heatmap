@@ -1,10 +1,9 @@
+#!/usr/bin/env Rscript
 library(ggplot2)
 library(RColorBrewer)
 library(dplyr)
 library(stringr)
-library(tidyr)
 theme_set(theme_bw())
-options(repr.plot.width=7, repr.plot.height=4)
 
 # Setup convenience globals
 isotypes = c('Ala', 'Arg', 'Asn', 'Asp', 'Cys', 'Gln', 'Glu', 'Gly', 'His', 'Ile', 'iMet', 'Leu', 'Lys', 'Met', 'Phe', 'Pro', 'Ser', 'Thr', 'Trp', 'Tyr', 'Val')
@@ -20,10 +19,9 @@ single_colors = c('A'='gray20', 'C'='gray20', 'G'='gray20', 'U'='gray20', 'Delet
 # Get user input
 args = commandArgs(trailingOnly=TRUE)
 seq = args[1]
-ss = args[2]
-species = args[3]
-isotype = args[4]
-best_isotype = args[5]
+species = args[2]
+isotype = args[3]
+best_isotype = args[4]
 
 # Read in data
 isotype_specific = read.table('/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
@@ -41,11 +39,11 @@ close(fasta_handle)
 model = '/projects/lowelab/users/blin/tRNAscan/models/current/TRNAinf-euk.cm'
 output = system(paste('cmalign -g --notrunc', model, fasta_file), intern=TRUE)
 seq = tail(unlist(str_split(output[4], '\\s+')), 1)
-ss = substr(output[6], 15, nchar(output[6]))
+ss = tail(unlist(str_split(output[6], '\\s+')), 1)
 
 # Get seq numbering
 output = system(paste0('printf "', seq, '\\n', ss, '" | python position_interface.py'), intern=TRUE)
-df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), input_isotype, "Input", stringsAsFactors=FALSE)
+df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), isotype, "Input", stringsAsFactors=FALSE)
 codes = c("A"="A", "C"="C", "G"="G", "U"="U", "-"="Deletion", "."="Deletion", "A:A"="Mismatched", "G:G"="Mismatched", "C:C"="Mismatched", "U:U"="Mismatched", "A:G"="Mismatched", "A:C"="Mismatched", "C:A"="Mismatched", "C:U"="Mismatched", "G:A"="Mismatched", "U:C"="Mismatched", "A:-"="Bulge", "U:-"="Bulge", "C:-"="Bulge", "G:-"="Bulge", "-:A"="Bulge", "-:G"="Bulge", "-:C"="Bulge", "-:U"="Bulge", "A:U"="AU", "U:A"="UA", "C:G"="CG", "G:C"="GC", "G:U"="GU", "U:G"="UG", "-:-"="PairDeletion")
 df$identity = codes[df$X2]
 
@@ -61,7 +59,7 @@ identities = rbind(identities, df)
 # Single plot
 options(repr.plot.width=8, repr.plot.height=2.7)
 plot = identities %>% 
-  filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
+  filter(isotype %in% c(isotype, best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
   filter(!str_detect(positions, '\\.')) %>%
   mutate(positions=factor(positions, names(single_positions))) %>%
   mutate(identity=factor(identity, single_identities)) %>%
@@ -77,7 +75,7 @@ ggsave(plot, file='single-plot.png', width=8, height=3)
 
 # Single plot
 plot = identities %>% 
-  filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
+  filter(isotype %in% c(isotype, best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
   filter(str_detect(positions, '\\.')) %>%
   mutate(positions=factor(positions, names(paired_positions))) %>%
   mutate(identity=factor(identity, paired_identities)) %>%
