@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 library(ggplot2)
 library(RColorBrewer)
-library(dplyr)
+suppressMessages(library(dplyr))
 library(stringr)
 theme_set(theme_bw())
 
@@ -20,17 +20,18 @@ single_colors = c('A'='gray20', 'C'='gray20', 'G'='gray20', 'U'='gray20', 'Delet
 args = commandArgs(trailingOnly=TRUE)
 seq = args[1]
 species = args[2]
-isotype = args[3]
-best_isotype = args[4]
+input_isotype = args[3]
+input_best_isotype = args[4]
 
 # Read in data
 isotype_specific = read.table('/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
 clade_isotype_specific = read.table('/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/clade-isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
 identities = rbind(cbind(isotype_specific, clade='Eukarya'), cbind(clade_isotype_specific))
 genome_table = read.delim('/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/genome_table+.txt', header=FALSE, sep='\t', stringsAsFactors=FALSE)
+input_clade = genome_table[genome_table$V2 == species, ]$V5
 
 # write fasta file
-fasta_file = paste0('temp-', species, '-', isotype, '.fa')
+fasta_file = paste0('temp-', species, '-', input_isotype, '.fa')
 fasta_handle = file(fasta_file) 
 writeLines(c(paste0(">", fasta_file), seq), fasta_file)
 close(fasta_handle)
@@ -43,7 +44,7 @@ ss = tail(unlist(str_split(output[6], '\\s+')), 1)
 
 # Get seq numbering
 output = system(paste0('printf "', seq, '\\n', ss, '" | python position_interface.py'), intern=TRUE)
-df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), isotype, "Input", stringsAsFactors=FALSE)
+df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), input_isotype, "Input", stringsAsFactors=FALSE)
 codes = c("A"="A", "C"="C", "G"="G", "U"="U", "-"="Deletion", "."="Deletion", "A:A"="Mismatched", "G:G"="Mismatched", "C:C"="Mismatched", "U:U"="Mismatched", "A:G"="Mismatched", "A:C"="Mismatched", "C:A"="Mismatched", "C:U"="Mismatched", "G:A"="Mismatched", "U:C"="Mismatched", "A:-"="Bulge", "U:-"="Bulge", "C:-"="Bulge", "G:-"="Bulge", "-:A"="Bulge", "-:G"="Bulge", "-:C"="Bulge", "-:U"="Bulge", "A:U"="AU", "U:A"="UA", "C:G"="CG", "G:C"="GC", "G:U"="GU", "U:G"="UG", "-:-"="PairDeletion")
 df$identity = codes[df$X2]
 
@@ -57,10 +58,9 @@ colnames(df) = c("isotype", "positions", "identity", "clade")
 identities = rbind(identities, df)
 
 # Single plot
-options(repr.plot.width=8, repr.plot.height=2.7)
 plot = identities %>% 
-  filter(isotype %in% c(isotype, best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
-  filter(!str_detect(positions, '\\.')) %>%
+  filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
+  filter(positions %in% names(single_positions)) %>%
   mutate(positions=factor(positions, names(single_positions))) %>%
   mutate(identity=factor(identity, single_identities)) %>%
   mutate(category=paste0(isotype, ' - ', clade)) %>%
@@ -71,12 +71,12 @@ plot = identities %>%
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
     guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='single-plot.png', width=8, height=3)
+ggsave(plot, file='single-plot.png', width=8, height=2.7)
 
-# Single plot
+# Paired plot
 plot = identities %>% 
-  filter(isotype %in% c(isotype, best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
-  filter(str_detect(positions, '\\.')) %>%
+  filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
+  filter(positions %in% names(paired_positions)) %>%
   mutate(positions=factor(positions, names(paired_positions))) %>%
   mutate(identity=factor(identity, paired_identities)) %>%
   mutate(category=paste0(isotype, ' - ', clade)) %>%
