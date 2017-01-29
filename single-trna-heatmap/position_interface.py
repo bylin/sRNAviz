@@ -25,6 +25,8 @@ identities = {sprinzl:base for sprinzl, base in position_base(positions, seq)}
 
 # handle 20ab inserts
 inserts = list(filter(lambda x: re.match('2\di\d+', x), identities.keys()))
+if len(inserts) == 0:
+  identities['20a'] = '-'
 if len(inserts) >= 1:
   identities['20a'] = identities[inserts[0]]
 if len(inserts) >= 2:
