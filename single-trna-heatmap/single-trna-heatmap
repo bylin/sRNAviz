@@ -66,7 +66,7 @@ matches_input = function(isotype, positions, identity) {
 }
 identities = identities %>% 
   filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>% 
-  mutate(category=paste0(isotype, ' - ', clade)) %>%
+  mutate(category=ifelse(clade != "Input", paste0(isotype, ' - ', clade), "Your Sequence")) %>%
   rowwise() %>% mutate(Match=matches_input(isotype, positions, identity))
 
 
@@ -76,12 +76,12 @@ plot = identities %>% filter(positions %in% names(single_positions)) %>%
   mutate(identity=factor(identity, single_identities)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
     geom_point(aes(x=positions, y=category, shape=Match)) +
-    scale_shape_manual(values=c(4, 1)) +
+    scale_shape_manual(values=c(4, 1), labels=c("Conflict", "Match")) +
     theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=single_positions) +
     scale_color_manual(values=single_colors) +
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
-    guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL)) + 
+    guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
 ggsave(plot, file='single-plot.png', width=8, height=2.7)
 
@@ -92,11 +92,11 @@ plot = identities %>%
   mutate(identity=factor(identity, paired_identities)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
     geom_point(aes(x=positions, y=category, shape=Match)) +
-    scale_shape_manual(values=c(4, 1)) +
+    scale_shape_manual(values=c(4, 1), labels=c("Conflict", "Match")) +
     theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=paired_positions) +
     scale_color_manual(values=paired_colors) +
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
-    guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL)) + 
+    guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='paired-plot.png', width=8, height=3)
+ggsave(plot, file='paired-plot.png', width=8, height=2.9)
