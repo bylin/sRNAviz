@@ -43,7 +43,7 @@ seq = tail(unlist(str_split(output[4], '\\s+')), 1)
 ss = tail(unlist(str_split(output[6], '\\s+')), 1)
 
 # Get seq numbering
-output = system(paste0('printf "', seq, '\\n', ss, '" | python position_interface.py'), intern=TRUE)
+output = system(paste0('printf "', seq, '\\n', ss, '" | python /projects/lowelab/users/blin/srna-viz/single-trna-heatmap/position_interface.py'), intern=TRUE)
 df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), input_isotype, "Input", stringsAsFactors=FALSE)
 codes = c("A"="A", "C"="C", "G"="G", "U"="U", "-"="Deletion", "."="Deletion", "A:A"="Mismatched", "G:G"="Mismatched", "C:C"="Mismatched", "U:U"="Mismatched", "A:G"="Mismatched", "A:C"="Mismatched", "C:A"="Mismatched", "C:U"="Mismatched", "G:A"="Mismatched", "U:C"="Mismatched", "A:-"="Bulge", "U:-"="Bulge", "C:-"="Bulge", "G:-"="Bulge", "-:A"="Bulge", "-:G"="Bulge", "-:C"="Bulge", "-:U"="Bulge", "A:U"="AU", "U:A"="UA", "C:G"="CG", "G:C"="GC", "G:U"="GU", "U:G"="UG", "-:-"="PairDeletion")
 df$identity = codes[df$X2]
@@ -57,14 +57,26 @@ df = df[, c(3, 1, 5, 4)]
 colnames(df) = c("isotype", "positions", "identity", "clade")
 identities = rbind(identities, df)
 
+# Wrange main data frame for plotting
+matches_input = function(isotype, positions, identity) {
+  codes = list(A='A', C='C', G='G', U='U', Deletion='Deletion', Purine=c('A', 'G', 'Purine'), Pyrimidine=c('C', 'U', 'Pyrimidine'), Weak=c('A', 'U', 'Weak'), Strong=c('G', 'C', 'Strong'), Amino=c('A', 'C', 'Amino'), Keto=c('G', 'U', 'Keto'), B=c('C', 'G', 'U', 'B', 'Strong', 'Pyrimidine', 'Keto'), D=c('A', 'G', 'U', 'D', 'Purine', 'Weak', 'Keto'), H=c('A', 'C', 'U', 'H', 'Amino', 'Weak', 'Pyrimidine'), V=c('A', 'C', 'G', 'V', 'Amino', 'Purine', 'Strong'), GC='GC', AU='AU', UA='UA', CG='CG', GU='GU', UG='UG', PairDeletion='PairDeletion', PurinePyrimidine=c('AU', 'GC', 'PurinePyrimidine'), PyrimidinePurine=c('UA', 'CG', 'PyrimidinePurine'), StrongPair=c('GC', 'CG', 'StrongPair'), WeakPair=c('AU', 'UA', 'WeakPair'), Wobble=c('GU', 'UG', 'Wobble'), Paired=c('AU', 'UA', 'CG', 'GC', 'GU', 'UG', 'Paired', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble'), Bulge=c('Bulge'), Mismatched=c('AA', 'GG', 'CC', 'UU', 'AG', 'AC', 'CA', 'CU', 'GA', 'UC', 'Mismatched', 'Paired', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble'))
+  input_identity = identities[identities$positions == positions & identities$clade == "Input", ]$identity
+  if (length(input_identity) != 1) print(paste("Too many codes", isotype, positions, identity))
+  return(input_identity %in% codes[[as.character(identity)]])
+}
+identities = identities %>% 
+  filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>% 
+  mutate(category=paste0(isotype, ' - ', clade)) %>%
+  rowwise() %>% mutate(Match=matches_input(isotype, positions, identity))
+
+
 # Single plot
-plot = identities %>% 
-  filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
-  filter(positions %in% names(single_positions)) %>%
+plot = identities %>% filter(positions %in% names(single_positions)) %>%
   mutate(positions=factor(positions, names(single_positions))) %>%
   mutate(identity=factor(identity, single_identities)) %>%
-  mutate(category=paste0(isotype, ' - ', clade)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
+    geom_point(aes(x=positions, y=category, shape=Match)) +
+    scale_shape_manual(values=c(4, 1)) +
     theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=single_positions) +
     scale_color_manual(values=single_colors) +
@@ -75,12 +87,12 @@ ggsave(plot, file='single-plot.png', width=8, height=2.7)
 
 # Paired plot
 plot = identities %>% 
-  filter(isotype %in% c(input_isotype, input_best_isotype) & clade %in% c("Eukarya", "Input", input_clade)) %>%
   filter(positions %in% names(paired_positions)) %>%
   mutate(positions=factor(positions, names(paired_positions))) %>%
   mutate(identity=factor(identity, paired_identities)) %>%
-  mutate(category=paste0(isotype, ' - ', clade)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
+    geom_point(aes(x=positions, y=category, shape=Match)) +
+    scale_shape_manual(values=c(4, 1)) +
     theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=paired_positions) +
     scale_color_manual(values=paired_colors) +
