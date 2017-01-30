@@ -19,7 +19,7 @@ single_colors = c('A'='gray20', 'C'='gray20', 'G'='gray20', 'U'='gray20', 'Delet
 # Get user input
 args = commandArgs(trailingOnly=TRUE)
 seq = args[1]
-species = args[2]
+input_species_clade = args[2]
 input_isotypes = args[3]
 input_isotypes = unlist(str_split(input_isotypes, ','))
 
@@ -28,10 +28,14 @@ isotype_specific = read.table('single-trna-heatmap/isotype-specific.tsv', sep='\
 clade_isotype_specific = read.table('single-trna-heatmap/clade-isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
 identities = rbind(cbind(isotype_specific, clade='Eukarya'), cbind(clade_isotype_specific))
 genome_table = read.delim('single-trna-heatmap/genome_table+.txt', header=FALSE, sep='\t', stringsAsFactors=FALSE)
-input_clade = genome_table[genome_table$V2 == species, ]$V5
+if (input_species_clade %in% genome_table$V5) {
+  input_clade = input_species_clade
+} else {
+  input_clade = genome_table[genome_table$V2 == input_species_clade, ]$V5
+}
 
 # write fasta file
-fasta_file = paste0('temp-', species, '-', input_isotypes[1], '.fa')
+fasta_file = paste0('temp-', input_species_clade, '-', input_isotypes[1], '.fa')
 fasta_handle = file(fasta_file) 
 writeLines(c(paste0(">", fasta_file), seq), fasta_file)
 close(fasta_handle)
@@ -83,7 +87,7 @@ plot = identities %>% filter(positions %in% names(single_positions)) %>%
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
     guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='single-plot.png', width=8, height=1.6+0.23*length(input_isotypes))
+ggsave(plot, file='single-plot.png', width=8, height=1.6+0.44*length(input_isotypes))
 
 # Paired plot
 plot = identities %>% 
@@ -99,4 +103,4 @@ plot = identities %>%
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
     guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='paired-plot.png', width=8, height=1.75+0.23*length(input_isotypes))
+ggsave(plot, file='paired-plot.png', width=8, height=1.75+0.46*length(input_isotypes))
