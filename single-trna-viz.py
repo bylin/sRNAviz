@@ -20,8 +20,7 @@ def display_page():
       input_species = request.form['inputSpecies']
       input_isotype = request.form['inputIsotype']
       input_best_isotype = request.form['inputBestIsotype']
-      script_dir = '/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/'
-      shell_cmd = '{}/single-trna-heatmap {} {} {} {}'.format(script_dir, input_seq, input_species, input_isotype, input_best_isotype)
+      shell_cmd = 'single-trna-heatmap/single-trna-heatmap.R {} {} {} {}'.format(input_seq, input_species, input_isotype, input_best_isotype)
       print('Parsed args, now running...')
       if subprocess.call(shell_cmd, shell=True) == 0:
         subprocess.call('mv single-plot.png static', shell=True)

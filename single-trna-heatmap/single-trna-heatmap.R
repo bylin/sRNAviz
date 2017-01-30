@@ -24,10 +24,10 @@ input_isotype = args[3]
 input_best_isotype = args[4]
 
 # Read in data
-isotype_specific = read.table('/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
-clade_isotype_specific = read.table('/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/clade-isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
+isotype_specific = read.table('single-trna-heatmap/isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
+clade_isotype_specific = read.table('single-trna-heatmap/clade-isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
 identities = rbind(cbind(isotype_specific, clade='Eukarya'), cbind(clade_isotype_specific))
-genome_table = read.delim('/projects/lowelab/users/blin/srna-viz/single-trna-heatmap/genome_table+.txt', header=FALSE, sep='\t', stringsAsFactors=FALSE)
+genome_table = read.delim('single-trna-heatmap/genome_table+.txt', header=FALSE, sep='\t', stringsAsFactors=FALSE)
 input_clade = genome_table[genome_table$V2 == species, ]$V5
 
 # write fasta file
@@ -43,7 +43,7 @@ seq = tail(unlist(str_split(output[4], '\\s+')), 1)
 ss = tail(unlist(str_split(output[6], '\\s+')), 1)
 
 # Get seq numbering
-output = system(paste0('printf "', seq, '\\n', ss, '" | python /projects/lowelab/users/blin/srna-viz/single-trna-heatmap/position_interface.py'), intern=TRUE)
+output = system(paste0('printf "', seq, '\\n', ss, '" | python single-trna-heatmap/position_interface.py'), intern=TRUE)
 df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), input_isotype, "Input", stringsAsFactors=FALSE)
 codes = c("A"="A", "C"="C", "G"="G", "U"="U", "-"="Deletion", "."="Deletion", "A:A"="Mismatched", "G:G"="Mismatched", "C:C"="Mismatched", "U:U"="Mismatched", "A:G"="Mismatched", "A:C"="Mismatched", "C:A"="Mismatched", "C:U"="Mismatched", "G:A"="Mismatched", "U:C"="Mismatched", "A:-"="Bulge", "U:-"="Bulge", "C:-"="Bulge", "G:-"="Bulge", "-:A"="Bulge", "-:G"="Bulge", "-:C"="Bulge", "-:U"="Bulge", "A:U"="AU", "U:A"="UA", "C:G"="CG", "G:C"="GC", "G:U"="GU", "U:G"="UG", "-:-"="PairDeletion")
 df$identity = codes[df$X2]
