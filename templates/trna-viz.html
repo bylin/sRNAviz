@@ -1,0 +1,304 @@
+<!doctype html>
+
+<title>Single tRNA identity heatmap</title>
+
+<div class="container">
+	<div class="row">
+		<h2>Single tRNA identity heatmap</h2>
+	</div>
+	<hr>
+	<br>
+	<div class="row" id='formRow'>
+		<form role="form" method="POST">
+		<div class="row" id="inputRow">
+			<div class="row" id="firstRow">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="inputSeq">Genomic tRNA sequence</label>
+						<textarea type="textarea" class="form-control" name="inputSeq" rows="4" placeholder="Paste unformatted sequence here"></textarea>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="inputSpecies">Species code</label>
+						<select multiple class="form-control" name="inputSpecies">
+							<option>ailMel1</option>
+							<option>Mus129S1_SvImJ_1509</option>
+							<option>anoCar2</option>
+							<option>MusA_J_1509</option>
+							<option>araTha1</option>
+							<option>MusAKR_J_1509</option>
+							<option>ashbGoss_ATCC10895</option>
+							<option>MusBALB_cJ_1509</option>
+							<option>aspeFumi_AF293</option>
+							<option>MusC3H_HeJ_1509</option>
+							<option>aspeNidu_FGSC_A4</option>
+							<option>MusC57BL_6NJ_1509</option>
+							<option>aspeOryz_RIB40</option>
+							<option>MusCAROLI_EiJ_1509</option>
+							<option>balAcu1</option>
+							<option>MusCAST_EiJ_1509</option>
+							<option>bosTau8</option>
+							<option>MusCBA_J_1509</option>
+							<option>botrCine_B05_10</option>
+							<option>MusDBA_2J_1509</option>
+							<option>braDis3</option>
+							<option>musFur1</option>
+							<option>caeJap1</option>
+							<option>MusFVB_NJ_1509</option>
+							<option>caePb2</option>
+							<option>MusLP_J_1509</option>
+							<option>caeRem3</option>
+							<option>MusNOD_ShiLtJ_1509</option>
+							<option>calJac3</option>
+							<option>MusNZO_HlLtJ_1509</option>
+							<option>calMil1</option>
+							<option>MusPahari_EiJ_1509</option>
+							<option>candAlbi_WO_1</option>
+							<option>MusPWK_PhJ_1509</option>
+							<option>candDubl_CD36</option>
+							<option>MusSPRET_EiJ_1509</option>
+							<option>candGlab_CBS_138</option>
+							<option>MusWSB_EiJ_1509</option>
+							<option>candOrth_CO_90_125</option>
+							<option>myceTher_ATCC42464</option>
+							<option>canFam3</option>
+							<option>myoLuc2</option>
+							<option>cavPor3</option>
+							<option>naumCast_CBS_4309</option>
+							<option>cb3</option>
+							<option>naumDair_CBS_421</option>
+							<option>ce10</option>
+							<option>neurCras_OR74A</option>
+							<option>cerSim1</option>
+							<option>nomLeu3</option>
+							<option>chaeTher_VAR_THERMOPHILUM_DSM1</option>
+							<option>ochPri3</option>
+							<option>chrPic1</option>
+							<option>ogatPara_DL_1</option>
+							<option>criGri1</option>
+							<option>oreNil2</option>
+							<option>crypGatt_WM276</option>
+							<option>ornAna1</option>
+							<option>crypNeof_VAR_GRUBII_H99</option>
+							<option>oryCun2</option>
+							<option>crypNeof_VAR_NEOFORMANS_B_3501</option>
+							<option>oryLat2</option>
+							<option>crypNeof_VAR_NEOFORMANS_JEC21</option>
+							<option>orySat7</option>
+							<option>cybeJadi_NBRC_0988_NBRC0988</option>
+							<option>otoGar3</option>
+							<option>danRer10</option>
+							<option>oviAri3</option>
+							<option>dasNov3</option>
+							<option>panTro4</option>
+							<option>debaHans_CBS767</option>
+							<option>papAnu2</option>
+							<option>dipOrd1</option>
+							<option>peniChry_P2NIAD18</option>
+							<option>dm6</option>
+							<option>ponAbe2</option>
+							<option>dp4</option>
+							<option>popTri3</option>
+							<option>droAna3</option>
+							<option>priPac1</option>
+							<option>droEre2</option>
+							<option>proCap1</option>
+							<option>droGri2</option>
+							<option>pteVam1</option>
+							<option>droMoj3</option>
+							<option>rheMac3</option>
+							<option>droPer1</option>
+							<option>rn6</option>
+							<option>droSec1</option>
+							<option>saccCere_AWRI796</option>
+							<option>droSim1</option>
+							<option>saccCere_CEN_PK113_7D</option>
+							<option>droVir3</option>
+							<option>saccCere_FOSTERSB</option>
+							<option>droWil1</option>
+							<option>saccCere_P283</option>
+							<option>droYak2</option>
+							<option>saccCere_P301</option>
+							<option>enceCuni_GB_M1</option>
+							<option>saccCere_R008</option>
+							<option>enceHell_ATCC50504</option>
+							<option>saccCere_R103</option>
+							<option>enceInte_ATCC50506</option>
+							<option>saccCere_SIGMA1278B</option>
+							<option>enceRoma_SJ_2008</option>
+							<option>saccCere_UFMG_A_905</option>
+							<option>equCab2</option>
+							<option>saccCere_VIN13</option>
+							<option>eremCymb_DBVPG#7215</option>
+							<option>saccCere_VL3</option>
+							<option>eriEur2</option>
+							<option>saccCere_W303</option>
+							<option>felCat5</option>
+							<option>saccCere_YJSH1</option>
+							<option>flamVelu_KACC42780</option>
+							<option>sacCer3</option>
+							<option>fr3</option>
+							<option>saccSp_ASHBYA_ACERI</option>
+							<option>fusaGram_CS3005</option>
+							<option>saccSp_BOULARDII_17</option>
+							<option>fusaGram_PH_1_NRRL_31084</option>
+							<option>saccSp_BOULARDII_ATCCMYA_796</option>
+							<option>fusaPseu_CS3096</option>
+							<option>saiBol1</option>
+							<option>fusaPseu_CS3270</option>
+							<option>sarHar1</option>
+							<option>fusaVert_7600</option>
+							<option>scheStip_CBS_6054</option>
+							<option>gadMor1</option>
+							<option>schiPomb_972H</option>
+							<option>galGal4</option>
+							<option>sorAra2</option>
+							<option>gasAcu1</option>
+							<option>sorBic3</option>
+							<option>geoFor1</option>
+							<option>speTri2</option>
+							<option>glyMax2</option>
+							<option>sporReil_SRZ2</option>
+							<option>gorGor3</option>
+							<option>susScr3</option>
+							<option>gosRai2</option>
+							<option>taeGut2</option>
+							<option>hetGla2</option>
+							<option>tarSyr2</option>
+							<option>hg19</option>
+							<option>tetNig2</option>
+							<option>hg38</option>
+							<option>tetrBlat_CBS_6284</option>
+							<option>kazaAfri_CBS_2517</option>
+							<option>tetrPhaf_CBS_4417</option>
+							<option>kazaNaga_CBS_8797</option>
+							<option>thieTerr_NRRL_8126</option>
+							<option>kluyLact_NRRL_Y_1140</option>
+							<option>toruDelb_CBS_1146</option>
+							<option>komaPast_CBS_7435</option>
+							<option>triMan1</option>
+							<option>komaPast_GS115</option>
+							<option>trypBruc_BRUCEI_TREU927_927_4</option>
+							<option>lachKluy_NRRL_Y_12651</option>
+							<option>trypBruc_GAMBIENSE_DAL972_DAL</option>
+							<option>lachTher_CBS_6340</option>
+							<option>turTru2</option>
+							<option>latCha1</option>
+							<option>ustiMayd_521</option>
+							<option>loxAfr3</option>
+							<option>valsMali_03_8</option>
+							<option>macEug2</option>
+							<option>vertDahl_JR2</option>
+							<option>magnOryz_70_15</option>
+							<option>vertDahl_VDLS_17</option>
+							<option>manEsc6</option>
+							<option>vicPac2</option>
+							<option>medTru4</option>
+							<option>vitVin1</option>
+							<option>melGal1</option>
+							<option>xenTro3</option>
+							<option>melUnd1</option>
+							<option>yarrLipo_CLIB122</option>
+							<option>micMur1</option>
+							<option>yarrLipo_PO1F</option>
+							<option>millFari_CBS_7064</option>
+							<option>yarrLipo_WSH_Z06</option>
+							<option>mm10</option>
+							<option>zeaMay6</option>
+							<option>monDom5</option>
+							<option>zygoRoux_CBS_732</option>
+						</select>
+						<small class="form-text text-muted">This is used to find which clade should be displayed.</small>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="secondRow">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="inputIsotype">Isotype</label>
+						<select multiple class="form-control" name="inputIsotype">
+							<option>Ala</option>
+							<option>Arg</option>
+							<option>Asn</option>
+							<option>Asp</option>
+							<option>Cys</option>
+							<option>Gln</option>
+							<option>Glu</option>
+							<option>Gly</option>
+							<option>His</option>
+							<option>Ile</option>
+							<option>iMet</option>
+							<option>Leu</option>
+							<option>Lys</option>
+							<option>Met</option>
+							<option>Phe</option>
+							<option>Pro</option>
+							<option>Ser</option>
+							<option>Thr</option>
+							<option>Trp</option>
+							<option>Tyr</option>
+							<option>Val</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="inputBestIsotype">Best Isotype</label>
+						<select multiple class="form-control" name="inputBestIsotype">
+							<option>Ala</option>
+							<option>Arg</option>
+							<option>Asn</option>
+							<option>Asp</option>
+							<option>Cys</option>
+							<option>Gln</option>
+							<option>Glu</option>
+							<option>Gly</option>
+							<option>His</option>
+							<option>Ile</option>
+							<option>iMet</option>
+							<option>Leu</option>
+							<option>Lys</option>
+							<option>Met</option>
+							<option>Phe</option>
+							<option>Pro</option>
+							<option>Ser</option>
+							<option>Thr</option>
+							<option>Trp</option>
+							<option>Tyr</option>
+							<option>Val</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="submitButton">
+				<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+		</form>
+	</div>
+
+	<br>
+
+	<div class="row" id="resultsRow">
+		{% for error in errors %}
+		<div class="alert alert-danger" role="alert">{{ error }}</div>
+		{% endfor %}
+		{% if results %}
+			<div class="row">
+				<div class="col-md-12">
+					<h3>Single base heatmap</h3>
+					<img src="static/single-plot.png" class="img-responsive">
+				</div>
+				<div class="col-md-12">
+					<h3>Base pair heatmap</h3>
+					<img src="static/paired-plot.png" class="img-responsive">
+				</div>
+			</div>
+		{% endif %}
+		</div>
+	</div>
+</div>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
