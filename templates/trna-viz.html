@@ -217,58 +217,33 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="inputIsotype">Isotype</label>
-						<select multiple class="form-control" name="inputIsotype">
-							<option>Ala</option>
-							<option>Arg</option>
-							<option>Asn</option>
-							<option>Asp</option>
-							<option>Cys</option>
-							<option>Gln</option>
-							<option>Glu</option>
-							<option>Gly</option>
-							<option>His</option>
-							<option>Ile</option>
-							<option>iMet</option>
-							<option>Leu</option>
-							<option>Lys</option>
-							<option>Met</option>
-							<option>Phe</option>
-							<option>Pro</option>
-							<option>Ser</option>
-							<option>Thr</option>
-							<option>Trp</option>
-							<option>Tyr</option>
-							<option>Val</option>
+						<select id="inputIsotype" name="inputIsotype" multiple="multiple">
+							<option value="Ala">Ala</option>
+							<option value="Arg">Arg</option>
+							<option value="Asn">Asn</option>
+							<option value="Asp">Asp</option>
+							<option value="Cys">Cys</option>
+							<option value="Gln">Gln</option>
+							<option value="Glu">Glu</option>
+							<option value="Gly">Gly</option>
+							<option value="His">His</option>
+							<option value="Ile">Ile</option>
+							<option value="iMet">iMet</option>
+							<option value="Leu">Leu</option>
+							<option value="Lys">Lys</option>
+							<option value="Met">Met</option>
+							<option value="Phe">Phe</option>
+							<option value="Pro">Pro</option>
+							<option value="Ser">Ser</option>
+							<option value="Thr">Thr</option>
+							<option value="Trp">Trp</option>
+							<option value="Tyr">Tyr</option>
+							<option value="Val">Val</option>
 						</select>
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="form-group">
-						<label for="inputBestIsotype">Best Isotype</label>
-						<select multiple class="form-control" name="inputBestIsotype">
-							<option>Ala</option>
-							<option>Arg</option>
-							<option>Asn</option>
-							<option>Asp</option>
-							<option>Cys</option>
-							<option>Gln</option>
-							<option>Glu</option>
-							<option>Gly</option>
-							<option>His</option>
-							<option>Ile</option>
-							<option>iMet</option>
-							<option>Leu</option>
-							<option>Lys</option>
-							<option>Met</option>
-							<option>Phe</option>
-							<option>Pro</option>
-							<option>Ser</option>
-							<option>Thr</option>
-							<option>Trp</option>
-							<option>Tyr</option>
-							<option>Val</option>
-						</select>
-					</div>
+					Placeholder
 				</div>
 			</div>
 		</div>
@@ -300,5 +275,15 @@
 	</div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- Multiple select plugin for isotype input -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#inputIsotype').multiselect();
+    });
+</script>

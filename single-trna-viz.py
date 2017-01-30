@@ -24,8 +24,9 @@ def display_page():
         return render_template('trna-viz.html', errors=errors, results=results)
 
       input_species = request.form['inputSpecies']
-      input_isotype = request.form['inputIsotype']
-      shell_cmd = 'single-trna-heatmap/single-trna-heatmap.R {} {} {} {}'.format(input_seq, input_species, input_isotype, input_best_isotype)
+      input_isotype = request.form.getlist('inputIsotype') # Flask receives this as multiple values with the same key (inputIsotype => Ala, inputIsotype => Cys, etc.)
+      input_isotype = ','.join(input_isotype) # so, we have to format and pass to R script
+      shell_cmd = 'single-trna-heatmap/single-trna-heatmap.R {} {} {}'.format(input_seq, input_species, input_isotype)
       print('Parsed args, now running...')
       if subprocess.call(shell_cmd, shell=True) == 0:
         subprocess.call('mv single-plot.png static', shell=True)
