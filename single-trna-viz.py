@@ -1,6 +1,7 @@
 import requests
 from flask import Flask, render_template, request
 import subprocess
+import re
 app = Flask(__name__)
 
 @app.route("/single-trna-heatmap", methods=['GET', 'POST'])
@@ -17,9 +18,13 @@ def display_page():
     try:
       subprocess.call('rm static/single-plot.png static/paired-plot.png', shell=True)
       input_seq = request.form['inputSeq']
+      input_seq = input_seq.strip()
+      if re.search(input_seq, "[^agctAGCT]"): 
+        errors.append("Input sequence must contain only [AGCTagct]")
+        return render_template('trna-viz.html', errors=errors, results=results)
+
       input_species = request.form['inputSpecies']
       input_isotype = request.form['inputIsotype']
-      input_best_isotype = request.form['inputBestIsotype']
       shell_cmd = 'single-trna-heatmap/single-trna-heatmap.R {} {} {} {}'.format(input_seq, input_species, input_isotype, input_best_isotype)
       print('Parsed args, now running...')
       if subprocess.call(shell_cmd, shell=True) == 0:
