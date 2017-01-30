@@ -8,11 +8,11 @@ theme_set(theme_bw())
 # Setup convenience globals
 isotypes = c('Ala', 'Arg', 'Asn', 'Asp', 'Cys', 'Gln', 'Glu', 'Gly', 'His', 'Ile', 'iMet', 'Leu', 'Lys', 'Met', 'Phe', 'Pro', 'Ser', 'Thr', 'Trp', 'Tyr', 'Val')
 
-paired_positions = c('X1.72'='1:72', 'X2.71'='2:71', 'X3.70'='3:70', 'X4.69'='4:69', 'X5.68'='5:68', 'X6.67'='6:67', 'X7.66'='7:66', 'X8.14'='8:14', 'X9.23'='9:23', 'X10.25'='10:25', 'X10.45'='10:45', 'X11.24'='11:24', 'X12.23'='12:23', 'X13.22'='13:22', 'X15.48'='15:48','X18.55'='18:55', 'X19.56'='19:56', 'X22.46'='22:46', 'X26.44'='26:44', 'X27.43'='27:43', 'X28.42'='28:42', 'X29.41'='29:41', 'X30.40'='30:40', 'X31.39'='31:39', 'X49.65'='49:65', 'X50.64'='50:64', 'X51.63'='51:63', 'X52.62'='52:62', 'X53.61'='53:61', 'X54.58'='54:58')
+paired_positions = c('X1.72'='(A) 1:72', 'X2.71'='(A) 2:71', 'X3.70'='(A) 3:70', 'X4.69'='(A) 4:69', 'X5.68'='(A) 5:68', 'X6.67'='(A) 6:67', 'X7.66'='(A) 7:66', 'X8.14'='(A) 8:14', 'X9.23'='(3) 9:23', 'X10.25'='(D) 10:25', 'X10.45'='(3) 10:45', 'X11.24'='(D) 11:24', 'X12.23'='(D) 12:23', 'X13.22'='(D) 13:22', 'X15.48'='(3) 15:48', 'X18.55'='(3) 18:55', 'X19.56'='(3) 19:56', 'X22.46'='(3) 22:46', 'X26.44'='(C) 26:44', 'X27.43'='(C) 27:43', 'X28.42'='(C) 28:42', 'X29.41'='(C) 29:41', 'X30.40'='(C) 30:40', 'X31.39'='(C) 31:39', 'X49.65'='(T) 49:65', 'X50.64'='(T) 50:64', 'X51.63'='(T) 51:63', 'X52.62'='(T) 52:62', 'X53.61'='(T) 53:61', 'X54.58'='(3) 54:58')
 paired_identities = c('GC', 'AU', 'UA', 'CG', 'GU', 'UG', 'PairDeletion', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble', 'Paired', 'Bulge', 'Mismatched')
 paired_colors = c('GC'='gray20', 'AU'='gray20', 'UA'='gray20', 'CG'='gray20', 'GU'='gray20', 'UG'='gray20', 'PairDeletion'='gray20', 'PurinePyrimidine'='gray40', 'PyrimidinePurine'='gray40', 'StrongPair'='gray40', 'WeakPair'='gray40', 'Wobble'='gray40', 'Paired'='gray40', 'Bulge'='gray40', 'Mismatched'='gray40')
 
-single_positions = c('X8'='8', 'X9'='9', 'X14'='14', 'X15'='15', 'X16'='16', 'X17'='17', 'X18'='18', 'X19'='19', 'X20'='20', 'X20a'='20a', 'X21'='21', 'X26'='26', 'X32'='32', 'X33'='33', 'X34'='34', 'X35'='35', 'X36'='36', 'X37'='37', 'X38'='38', 'X44'='44', 'X45'='45', 'X46'='46', 'X47'='47', 'X48'='48', 'X54'='54', 'X55'='55', 'X56'='56', 'X57'='57', 'X58'='58', 'X59'='59', 'X60'='60', 'X73'='73')
+single_positions = c('X8'='8', 'X9'='9', 'X14'='(D) 14', 'X15'='(D) 15', 'X16'='(D) 16', 'X17'='(D) 17', 'X18'='(D) 18', 'X19'='(D) 19', 'X20'='(D) 20', 'X20a'='(D) 20a', 'X21'='(D) 21', 'X26'='26', 'X32'='(C) 32', 'X33'='(C) 33', 'X34'='(C) 34', 'X35'='(C) 35', 'X36'='(C) 36', 'X37'='(C) 37', 'X38'='(C) 38', 'X44'='(V) 44', 'X45'='(V) 45', 'X46'='(V) 46', 'X47'='(V) 47', 'X48'='(V) 48', 'X54'='(T) 54', 'X55'='(T) 55', 'X56'='(T) 56', 'X57'='(T) 57', 'X58'='(T) 58', 'X59'='(T) 59', 'X60'='(T) 60', 'X73'='73')
 single_identities = c('A', 'C', 'G', 'U', 'Deletion', 'Purine', 'Pyrimidine', 'Weak', 'Strong', 'Amino', 'Keto', 'B', 'D', 'H', 'V')
 single_colors = c('A'='gray20', 'C'='gray20', 'G'='gray20', 'U'='gray20', 'Deletion'='gray20', 'Purine'='gray40', 'Pyrimidine'='gray40', 'Weak'='gray40', 'Strong'='gray40', 'Amino'='gray40', 'Keto'='gray40', 'B'='gray40', 'D'='gray40', 'H'='gray40', 'V'='gray40')
 
@@ -87,7 +87,7 @@ plot = identities %>% filter(positions %in% names(single_positions)) %>%
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
     guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='single-plot.png', width=8, height=1.6+0.44*length(input_isotypes))
+ggsave(plot, file='single-plot.png', width=8, height=1.8+0.44*length(input_isotypes))
 
 # Paired plot
 plot = identities %>% 
@@ -103,4 +103,4 @@ plot = identities %>%
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
     guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='paired-plot.png', width=8, height=1.75+0.46*length(input_isotypes))
+ggsave(plot, file='paired-plot.png', width=8, height=1.95+0.46*length(input_isotypes))
