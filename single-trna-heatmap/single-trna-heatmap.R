@@ -22,6 +22,9 @@ seq = args[1]
 input_species_clade = args[2]
 input_isotypes = args[3]
 input_isotypes = unlist(str_split(input_isotypes, ','))
+session_id = args[4]
+single_plot_path = paste0('single-plot-', session_id, '.png')
+paired_plot_path = paste0('paired-plot-', session_id, '.png')
 
 # Read in data
 isotype_specific = read.table('single-trna-heatmap/isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
@@ -87,7 +90,7 @@ plot = identities %>% filter(positions %in% names(single_positions)) %>%
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
     guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='single-plot.png', width=8, height=1.8+0.44*length(input_isotypes))
+ggsave(plot, file=single_plot_path, width=8, height=1.8+0.44*length(input_isotypes))
 
 # Paired plot
 plot = identities %>% 
@@ -103,4 +106,7 @@ plot = identities %>%
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
     guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file='paired-plot.png', width=8, height=1.95+0.46*length(input_isotypes))
+ggsave(plot, file=paired_plot_path, width=8, height=1.95+0.46*length(input_isotypes))
+
+# clean up fasta file
+system(paste0("rm ", fasta_file))
