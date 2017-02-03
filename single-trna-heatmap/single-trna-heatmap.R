@@ -38,20 +38,21 @@ if (input_species_clade %in% genome_table$V5) {
 }
 
 # write fasta file
-fasta_file = paste0('temp-', input_species_clade, '-', input_isotypes[1], '.fa')
+fasta_file = paste0('seq-', session_id, '.fa')
 fasta_handle = file(fasta_file) 
 writeLines(c(paste0(">", fasta_file), seq), fasta_file)
 close(fasta_handle)
 
 # Align seq
+alignment_file = paste0('alignment-', session_id, '.sto')
 model = '/projects/lowelab/users/blin/tRNAscan/models/current/TRNAinf-euk.cm'
-output = system(paste('cmalign -g --notrunc', model, fasta_file), intern=TRUE)
+output = system(paste('cmalign -g --notrunc', model, fasta_file, '| tee', alignment_file), intern=TRUE)
 seq = tail(unlist(str_split(output[4], '\\s+')), 1)
 ss = tail(unlist(str_split(output[6], '\\s+')), 1)
 
 # Get seq numbering
 output = system(paste0('printf "', seq, '\\n', ss, '" | python single-trna-heatmap/position_interface.py'), intern=TRUE)
-df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), input_isotypes[1], "Input", stringsAsFactors=FALSE)
+df = data.frame(t(matrix(unlist(str_split(output, '\\s')), nrow=2)), "Input", "Input", stringsAsFactors=FALSE)
 codes = c("A"="A", "C"="C", "G"="G", "U"="U", "-"="Deletion", "."="Deletion", "A:A"="Mismatched", "G:G"="Mismatched", "C:C"="Mismatched", "U:U"="Mismatched", "A:G"="Mismatched", "A:C"="Mismatched", "C:A"="Mismatched", "C:U"="Mismatched", "G:A"="Mismatched", "U:C"="Mismatched", "A:-"="Bulge", "U:-"="Bulge", "C:-"="Bulge", "G:-"="Bulge", "-:A"="Bulge", "-:G"="Bulge", "-:C"="Bulge", "-:U"="Bulge", "A:U"="AU", "U:A"="UA", "C:G"="CG", "G:C"="GC", "G:U"="GU", "U:G"="UG", "-:-"="PairDeletion")
 df$identity = codes[df$X2]
 
@@ -72,10 +73,12 @@ matches_input = function(isotype, positions, identity) {
   return(input_identity %in% codes[[as.character(identity)]])
 }
 identities = identities %>% 
-  filter(isotype %in% input_isotypes & clade %in% c("Eukarya", "Input", input_clade)) %>% 
+  filter(isotype %in% c("Input", input_isotypes) & clade %in% c("Eukarya", "Input", input_clade)) %>% 
   mutate(category=ifelse(clade != "Input", paste0(isotype, ' - ', clade), "Your Sequence")) %>%
   rowwise() %>% mutate(Match=matches_input(isotype, positions, identity))
 
+# Write data to file
+write.table(identities[, c('isotype', 'positions', 'identity', 'clade', 'Match')], file=paste0('identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
 
 # Single plot
 plot = identities %>% filter(positions %in% names(single_positions)) %>%

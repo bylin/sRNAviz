@@ -4,258 +4,273 @@
 
 <div class="container">
 	<div class="row">
-		<h2>Single tRNA identity heatmap</h2>
+		<div class="col-md-12">
+			<h2>Single tRNA identity heatmap</h2>
+		</div>
 	</div>
 	<hr>
 	<br>
-	<div class="row" id='formRow'>
-		<form role="form" method="POST">
-		<div class="row" id="inputRow">
-			<div class="row" id="firstRow">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="inputSeq">Genomic tRNA sequence</label>
-						<textarea type="textarea" class="form-control" name="inputSeq" rows="4" placeholder="Paste unformatted sequence here"></textarea>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="inputSpecies">Species code</label>
-						<select multiple class="form-control" name="inputSpecies">
-<option value="ailMel1">Ailuropoda melanoleuca (panda) (BGI-Shenzhen AilMel 1.0 Dec 2009)</option>
-							<option value="anoCar2">Anolis carolinensis (lizard) (Broad AnoCar2.0 May 2010)</option>
-							<option value="araTha1">Arabidopsis thaliana (TAIR10 Feb 2011)</option>
-							<option value="ashbGoss_ATCC10895">Ashbya gossypii ATCC 10895</option>
-							<option value="aspeFumi_AF293">Aspergillus fumigatus Af293</option>
-							<option value="aspeNidu_FGSC_A4">Aspergillus nidulans FGSC A4</option>
-							<option value="aspeOryz_RIB40">Aspergillus oryzae RIB40</option>
-							<option value="balAcu1">Balaenoptera acutorostrata scammoni (Minke whale Oct. 2013 BalAcu1.0/balAcu1)</option>
-							<option value="bosTau7">Bos taurus (cow) (Baylor Btau_4.6.1 Oct 2011)</option>
-							<option value="bosTau8">Bos taurus (Cow Jun. 2014 Bos_taurus_UMD_3.1.1/bosTau8)</option>
-							<option value="botrCine_B05_10">Botrytis cinerea B05.10</option>
-							<option value="braDis3">Brachypodium distachyon Bd21 (JGI v3.0)</option>
-							<option value="caeJap1">Caenorhabditis japonica (WUGSC 3.0.2 Mar 2008)</option>
-							<option value="caePb2">Caenorhabditis brenneri (WUGSC 6.0.1 Feb 2008)</option>
-							<option value="caeRem3">Caenorhabditis remanei (WUGSC 15.0.1 May 2007)</option>
-							<option value="calJac3">Callithrix jacchus (marmoset) (WUGSC 3.2 Mar 2009)</option>
-							<option value="calMil1">Callorhinchus milii (Elephant shark Dec. 2013 Callorhinchus_milii-6.1.3/calMil1)</option>
-							<option value="candAlbi_WO_1">Candida albicans WO-1</option>
-							<option value="candDubl_CD36">Candida dubliniensis CD36</option>
-							<option value="candGlab_CBS_138">Candida glabrata CBS 138</option>
-							<option value="candOrth_CO_90_125">Candida orthopsilosis Co 90-125</option>
-							<option value="canFam3">Canis familiaris (dog) (CanFam3.1 Sept 2011)</option>
-							<option value="cavPor3">Cavia porcellus (Guinea pig) (Broad Feb 2008)</option>
-							<option value="cb3">Caenorhabditis briggsae (C. briggsae Jan. 2007 WUGSC 1.0/cb3)</option>
-							<option value="ce10">Caenorhabditis elegans (WS220 Oct 2010)</option>
-							<option value="cerSim1">Ceratotherium simum (White rhinoceros May 2012 CerSimSim1.0/cerSim1)</option>
-							<option value="chrPic1">Chrysemys picta bellii (Painted turtle Dec. 2011 v3.0.1/chrPic1)</option>
-							<option value="criGri1">Cricetulus griseus cell line CHO-K1 (Chinese hamster ovary CriGri 1.0 Aug 2011)</option>
-							<option value="crypGatt_WM276">Cryptococcus gattii WM276</option>
-							<option value="crypNeof_VAR_GRUBII_H99">Cryptococcus neoformans var. grubii H99</option>
-							<option value="crypNeof_VAR_NEOFORMANS_B_3501">Cryptococcus neoformans var. neoformans B-3501A</option>
-							<option value="crypNeof_VAR_NEOFORMANS_JEC21">Cryptococcus neoformans var. neoformans JEC21</option>
-							<option value="cybeJadi_NBRC_0988_NBRC0988">Cyberlindnera jadinii NBRC 0988 NBRC0988</option>
-							<option value="danRer10">Danio rerio (Zebrafish Sep. 2014 GRCz10/danRer10)</option>
-							<option value="danRer6">Danio rerio (Zebrafish) (Zv8 Apr 2009)</option>
-							<option value="dasNov3">Dasypus novemcinctus (Armadillo Dec. 2011 Baylor/dasNov3)</option>
-							<option value="debaHans_CBS767">Debaryomyces hansenii CBS767</option>
-							<option value="dm6">Drosophila melanogaster (D. melanogaster Aug. 2014 BDGP Release 6 + ISO1 MT/dm6)</option>
-							<option value="dp4">Drosophila pseudoobscura (D. pseudoobscura Feb. 2006)</option>
-							<option value="droAna3">Drosophila ananassae (D. ananassae Feb. 2006 Agencourt CAF1)</option>
-							<option value="droEre2">Drosophila erecta (D. erecta Feb. 2006 Agencourt CAF1)</option>
-							<option value="droGri2">Drosophila grimshawi (D. grimshawi Feb. 2006 Agencourt CAF1)</option>
-							<option value="droMoj3">Drosophila mojavensis (D. mojavensis Feb. 2006 Agencourt CAF1)</option>
-							<option value="droPer1">Drosophila persimilis (D. persimilis Oct. 2005 Broad)</option>
-							<option value="droSec1">Drosophila sechellia (D. sechellia Oct. 2005 Broad)</option>
-							<option value="droSim1">Drosophila simulans (D. simulans Apr. 2005 WUGSC mosaic 1.0)</option>
-							<option value="droVir3">Drosophila virilis (D. virilis Feb. 2006 Agencourt CAF1)</option>
-							<option value="droWil1">Drosophila willistoni (D. willistoni Feb. 2006)</option>
-							<option value="droYak2">Drosophila yakuba (D. yakuba Nov. 2005 WUGSC 7.1)</option>
-							<option value="enceCuni_GB_M1">Encephalitozoon cuniculi GB-M1</option>
-							<option value="enceHell_ATCC50504">Encephalitozoon hellem ATCC 50504</option>
-							<option value="enceInte_ATCC50506">Encephalitozoon intestinalis ATCC 50506</option>
-							<option value="enceRoma_SJ_2008">Encephalitozoon romaleae SJ-2008</option>
-							<option value="equCab2">Equus caballus (horse) (Sep 2007)</option>
-							<option value="eremCymb_DBVPG">7215 Eremothecium cymbalariae DBVPG#7215</option>
-							<option value="eriEur2">Erinaceus europaeus (Hedgehog May 2012 EriEur2.0/eriEur2)</option>
-							<option value="felCat5">Felis catus (cat) (Felis_catus-6.2 Sept 2011)</option>
-							<option value="flamVelu_KACC42780">Flammulina velutipes KACC42780</option>
-							<option value="fr3">Takifugu rubripes (Fugu Oct. 2011 FUGU5/fr3)</option>
-							<option value="fusaGram_CS3005">Fusarium graminearum CS3005</option>
-							<option value="fusaGram_PH_1_NRRL_31084">Fusarium graminearum PH-1 NRRL 31084</option>
-							<option value="fusaPseu_CS3096">Fusarium pseudograminearum CS3096</option>
-							<option value="fusaPseu_CS3270">Fusarium pseudograminearum CS3270</option>
-							<option value="fusaVert_7600">Fusarium verticillioides 7600</option>
-							<option value="gadMor1">Gadus morhua (Atlantic cod May 2010 Genofisk GadMor_May2010/gadMor1)</option>
-							<option value="galGal4">Gallus gallus (galGal4 Nov 2011)</option>
-							<option value="gasAcu1">Gasterosteus aculeatus (stickleback) (Broad 1.0 Feb 2006)</option>
-							<option value="geoFor1">Geospiza fortis (Medium ground finch Apr. 2012 GeoFor_1.0/geoFor1)</option>
-							<option value="glyMax2">Glycine max (soybean) (Wm82.a2)</option>
-							<option value="gorGor3">Gorilla gorilla gorilla (gorilla) (gorGor3.1 May 2011)</option>
-							<option value="gosRai2">Gossypium raimondii (Cotton v2)</option>
-							<option value="hetGla2">Heterocephalus glaber (Naked mole-rat Jan. 2012 Broad HetGla_female_1.0/hetGla2)</option>
-							<option value="hg19">Homo sapiens (hg19 - NCBI Build 37.1 Feb 2009)</option>
-							<option value="hg38">Homo sapiens (hg38 - GRCh38 Dec 2013)</option>
-							<option value="kazaAfri_CBS_2517">Kazachstania africana CBS 2517</option>
-							<option value="kazaNaga_CBS_8797">Kazachstania naganishii CBS 8797</option>
-							<option value="kluyLact_NRRL_Y_1140">Kluyveromyces lactis NRRL Y-1140</option>
-							<option value="komaPast_CBS_7435">Komagataella pastoris CBS 7435</option>
-							<option value="komaPast_GS115">Komagataella pastoris GS115</option>
-							<option value="lachKluy_NRRL_Y_12651">Lachancea kluyveri NRRL Y-12651</option>
-							<option value="lachTher_CBS_6340">Lachancea thermotolerans CBS 6340</option>
-							<option value="latCha1">Latimeria chalumnae (Coelacanth Aug. 2011 Broad/latCha1)</option>
-							<option value="loxAfr3">Loxodonta africana (elephant) (Broad/July 2009)</option>
-							<option value="macEug2">Macropus eugenii (Wallaby Sep. 2009 TWGS Meug_1.1/macEug2)</option>
-							<option value="magnOryz_70_15">Magnaporthe oryzae 70-15</option>
-							<option value="manEsc6">Manihot esculenta (Cassava v6)</option>
-							<option value="medTru4">Medicago truncatula (Mt4.0v1)</option>
-							<option value="melGal1">Meleagris gallopavo (turkey) (TGC Turkey_2.01 Dec 2009)</option>
-							<option value="melUnd1">Melopsittacus undulatus (Budgerigar Sep. 2011 WUSTL v6.3/melUnd1)</option>
-							<option value="micMur1">Microcebus murinus (Mouse lemur) (Jun 2003)</option>
-							<option value="millFari_CBS_7064">Millerozyma farinosa CBS 7064</option>
-							<option value="mm10">Mus musculus (mm10 Dec 2011)</option>
-							<option value="mm9">Mus musculus (mm9 July 2007)</option>
-							<option value="monDom5">Monodelphis domestica (opossum) (Broad Oct 2006)</option>
-							<option value="musFur1">Mustela putorius furo (Ferret Apr. 2011 MusPutFur1.0/musFur1)</option>
-							<option value="myceTher_ATCC42464">Myceliophthora thermophila ATCC 42464</option>
-							<option value="myoLuc2">Myotis lucifugus (Microbat Jul. 2010 Broad Institute Myoluc2.0/myoLuc2)</option>
-							<option value="naumCast_CBS_4309">Naumovozyma castellii CBS 4309</option>
-							<option value="naumDair_CBS_421">Naumovozyma dairenensis CBS 421</option>
-							<option value="neurCras_OR74A">Neurospora crassa OR74A</option>
-							<option value="nomLeu3">Nomascus leucogenys (Gibbon Oct. 2012 GGSC Nleu3.0/nomLeu3)</option>
-							<option value="ochPri3">Ochotona princeps (Pika May 2012 OchPri3.0/ochPri3)</option>
-							<option value="ogatPara_DL_1">Ogataea parapolymorpha DL-1</option>
-							<option value="oreNil2">Oreochromis niloticus (Nile tilapia Jan. 2011 Broad oreNil1.1/oreNil2)</option>
-							<option value="ornAna1">Ornithorhynchus anatinus (platypus) (WUGSC 5.0.1 Mar 2007)</option>
-							<option value="oryCun2">Oryctolagus cuniculus (rabbit) (Broad Apr 2009)</option>
-							<option value="oryLat2">Oryzias latipes (Medaka) (Oct 2005)</option>
-							<option value="orySat7">Oryza sativa Japonica Group (Japanese rice IRGSP-1.0)</option>
-							<option value="otoGar3">Otolemur garnettii (Bushbaby Mar. 2011 Broad/otoGar3)</option>
-							<option value="oviAri1">Ovis aries (sheep) (Feb 2010)</option>
-							<option value="oviAri3">Ovis aries (sheep) (Feb 2010)</option>
-							<option value="panTro4">Pan troglodytes (Chimp Feb. 2011 CSAC 2.1.4/panTro4)</option>
-							<option value="papAnu2">Papio anubis (Baboon Mar. 2012 Baylor Panu_2.0/papAnu2)</option>
-							<option value="peniChry_P2NIAD18">Penicillium chrysogenum P2niaD18</option>
-							<option value="petMar2">Petromyzon marinus (Lamprey Sep. 2010 WUGSC 7.0/petMar2)</option>
-							<option value="plasFalc1">Plasmodium falciparum (Oct 2007)</option>
-							<option value="ponAbe2">Pongo pygmaeus abelii (Orangutan July 2007 WUGSC 2.0.2/ponAbe2)</option>
-							<option value="popTri3">Populus trichocarpa (JGI v3.0)</option>
-							<option value="priPac1">Pristionchus pacificus (WUGSC 5.0 Feb 2007)</option>
-							<option value="proCap1">Procavia capensis (Rock hyrax Jul. 2008 Broad/proCap1)</option>
-							<option value="pteVam1">Pteropus vampyrus (Megabat Jul. 2008 Broad/pteVam1)</option>
-							<option value="rheMac3">Macaca mulatta (Rhesus Oct. 2010 BGI CR_1.0/rheMac3)</option>
-							<option value="rn5">Rattus norvegicus (rn5 Mar 2012)</option>
-							<option value="rn6">Rattus norvegicus (Rat Jul. 2014 RGSC 6.0/rn6)</option>
-							<option value="sacCer3">Saccharomyces cerevisiae (S288c Apr 2011)</option>
-							<option value="saccSp_ASHBYA_ACERI">Saccharomycetaceae sp. Ashbya aceri</option>
-							<option value="saccSp_BOULARDII_17">Saccharomyces sp. boulardii 17</option>
-							<option value="saccSp_BOULARDII_ATCCMYA_796">Saccharomyces sp. boulardii ATCC MYA-796</option>
-							<option value="saiBol1">Saimiri boliviensis (Squirrel monkey Oct. 2011 Broad/saiBol1)</option>
-							<option value="sarHar1">Sarcophilus harrisii (Tasmanian devil Feb. 2011 WTSI Devil_ref v7.0/sarHar1)</option>
-							<option value="scheStip_CBS_6054">Scheffersomyces stipitis CBS 6054</option>
-							<option value="schiPomb_972H">Schizosaccharomyces pombe 972h-</option>
-							<option value="sorAra2">Sorex araneus (Shrew Aug. 2008 Broad/sorAra2)</option>
-							<option value="sorBic3">Sorghum bicolor (Version 3.1)</option>
-							<option value="speTri2">Spermophilus tridecemlineatus (Squirrel Nov. 2011 Broad/speTri2)</option>
-							<option value="sporReil_SRZ2">Sporisorium reilianum SRZ2</option>
-							<option value="susScr3">Sus scrofa (Pig Aug. 2011 SGSC Sscrofa10.2/susScr3)</option>
-							<option value="taeGut2">Taeniopygia guttata (Zebra finch Feb. 2013 WashU taeGut324/taeGut2)</option>
-							<option value="tarSyr2">Tarsius syrichta (Tarsier Sep. 2013 Tarsius_syrichta-2.0.1/tarSyr2)</option>
-							<option value="tetNig2">Tetraodon nigroviridis (tetraodon) (Genoscope 8.0 Mar 2007)</option>
-							<option value="tetrBlat_CBS_6284">Tetrapisispora blattae CBS 6284</option>
-							<option value="tetrPhaf_CBS_4417">Tetrapisispora phaffii CBS 4417</option>
-							<option value="thieTerr_NRRL_8126">Thielavia terrestris NRRL 8126</option>
-							<option value="toruDelb_CBS_1146">Torulaspora delbrueckii CBS 1146</option>
-							<option value="triMan1">Trichechus manatus latirostris (Manatee Oct. 2011 Broad v1.0/triMan1)</option>
-							<option value="turTru2">Tursiops truncatus (Dolphin Oct. 2011 Baylor Ttru_1.4/turTru2)</option>
-							<option value="ustiMayd_521">Ustilago maydis 521</option>
-							<option value="valsMali_03_8">Valsa mali 03-8</option>
-							<option value="vertDahl_JR2">Verticillium dahliae JR2</option>
-							<option value="vertDahl_VDLS_17">Verticillium dahliae VdLs.17</option>
-							<option value="vicPac2">Vicugna pacos (Alpaca Mar. 2013 Vicugna_pacos-2.0.1/vicPac2)</option>
-							<option value="vitVin1">Vitis vinifera (Grapevine 12X)</option>
-							<option value="xenTro3">Xenopus tropicalis (frog) (JGI 4.2 Nov 2009)</option>
-							<option value="yarrLipo_CLIB122">Yarrowia lipolytica CLIB122</option>
-							<option value="yarrLipo_PO1F">Yarrowia lipolytica PO1f</option>
-							<option value="yarrLipo_WSH_Z06">Yarrowia lipolytica WSH-Z06</option>
-							<option value="zeaMay6">Zea mays B73 (Version AGPv3)</option>
-							<option value="zygoRoux_CBS_732">Zygosaccharomyces rouxii CBS 732</option>
+	<form role="form" method="POST">
+	<div class="row" id="firstRow">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="inputSeq">Genomic tRNA sequence</label>
+				<textarea type="textarea" class="form-control" name="inputSeq" rows="4" placeholder="Paste unformatted sequence here"></textarea>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="inputSpecies">Species code</label>
+				<select multiple class="form-control" name="inputSpecies">
+					<option value="ailMel1">Ailuropoda melanoleuca (panda) (BGI-Shenzhen AilMel 1.0 Dec 2009)</option>
+					<option value="anoCar2">Anolis carolinensis (lizard) (Broad AnoCar2.0 May 2010)</option>
+					<option value="araTha1">Arabidopsis thaliana (TAIR10 Feb 2011)</option>
+					<option value="ashbGoss_ATCC10895">Ashbya gossypii ATCC 10895</option>
+					<option value="aspeFumi_AF293">Aspergillus fumigatus Af293</option>
+					<option value="aspeNidu_FGSC_A4">Aspergillus nidulans FGSC A4</option>
+					<option value="aspeOryz_RIB40">Aspergillus oryzae RIB40</option>
+					<option value="balAcu1">Balaenoptera acutorostrata scammoni (Minke whale Oct. 2013 BalAcu1.0/balAcu1)</option>
+					<option value="bosTau7">Bos taurus (cow) (Baylor Btau_4.6.1 Oct 2011)</option>
+					<option value="bosTau8">Bos taurus (Cow Jun. 2014 Bos_taurus_UMD_3.1.1/bosTau8)</option>
+					<option value="botrCine_B05_10">Botrytis cinerea B05.10</option>
+					<option value="braDis3">Brachypodium distachyon Bd21 (JGI v3.0)</option>
+					<option value="caeJap1">Caenorhabditis japonica (WUGSC 3.0.2 Mar 2008)</option>
+					<option value="caePb2">Caenorhabditis brenneri (WUGSC 6.0.1 Feb 2008)</option>
+					<option value="caeRem3">Caenorhabditis remanei (WUGSC 15.0.1 May 2007)</option>
+					<option value="calJac3">Callithrix jacchus (marmoset) (WUGSC 3.2 Mar 2009)</option>
+					<option value="calMil1">Callorhinchus milii (Elephant shark Dec. 2013 Callorhinchus_milii-6.1.3/calMil1)</option>
+					<option value="candAlbi_WO_1">Candida albicans WO-1</option>
+					<option value="candDubl_CD36">Candida dubliniensis CD36</option>
+					<option value="candGlab_CBS_138">Candida glabrata CBS 138</option>
+					<option value="candOrth_CO_90_125">Candida orthopsilosis Co 90-125</option>
+					<option value="canFam3">Canis familiaris (dog) (CanFam3.1 Sept 2011)</option>
+					<option value="cavPor3">Cavia porcellus (Guinea pig) (Broad Feb 2008)</option>
+					<option value="cb3">Caenorhabditis briggsae (C. briggsae Jan. 2007 WUGSC 1.0/cb3)</option>
+					<option value="ce10">Caenorhabditis elegans (WS220 Oct 2010)</option>
+					<option value="cerSim1">Ceratotherium simum (White rhinoceros May 2012 CerSimSim1.0/cerSim1)</option>
+					<option value="chrPic1">Chrysemys picta bellii (Painted turtle Dec. 2011 v3.0.1/chrPic1)</option>
+					<option value="criGri1">Cricetulus griseus cell line CHO-K1 (Chinese hamster ovary CriGri 1.0 Aug 2011)</option>
+					<option value="crypGatt_WM276">Cryptococcus gattii WM276</option>
+					<option value="crypNeof_VAR_GRUBII_H99">Cryptococcus neoformans var. grubii H99</option>
+					<option value="crypNeof_VAR_NEOFORMANS_B_3501">Cryptococcus neoformans var. neoformans B-3501A</option>
+					<option value="crypNeof_VAR_NEOFORMANS_JEC21">Cryptococcus neoformans var. neoformans JEC21</option>
+					<option value="cybeJadi_NBRC_0988_NBRC0988">Cyberlindnera jadinii NBRC 0988 NBRC0988</option>
+					<option value="danRer10">Danio rerio (Zebrafish Sep. 2014 GRCz10/danRer10)</option>
+					<option value="danRer6">Danio rerio (Zebrafish) (Zv8 Apr 2009)</option>
+					<option value="dasNov3">Dasypus novemcinctus (Armadillo Dec. 2011 Baylor/dasNov3)</option>
+					<option value="debaHans_CBS767">Debaryomyces hansenii CBS767</option>
+					<option value="dm6">Drosophila melanogaster (D. melanogaster Aug. 2014 BDGP Release 6 + ISO1 MT/dm6)</option>
+					<option value="dp4">Drosophila pseudoobscura (D. pseudoobscura Feb. 2006)</option>
+					<option value="droAna3">Drosophila ananassae (D. ananassae Feb. 2006 Agencourt CAF1)</option>
+					<option value="droEre2">Drosophila erecta (D. erecta Feb. 2006 Agencourt CAF1)</option>
+					<option value="droGri2">Drosophila grimshawi (D. grimshawi Feb. 2006 Agencourt CAF1)</option>
+					<option value="droMoj3">Drosophila mojavensis (D. mojavensis Feb. 2006 Agencourt CAF1)</option>
+					<option value="droPer1">Drosophila persimilis (D. persimilis Oct. 2005 Broad)</option>
+					<option value="droSec1">Drosophila sechellia (D. sechellia Oct. 2005 Broad)</option>
+					<option value="droSim1">Drosophila simulans (D. simulans Apr. 2005 WUGSC mosaic 1.0)</option>
+					<option value="droVir3">Drosophila virilis (D. virilis Feb. 2006 Agencourt CAF1)</option>
+					<option value="droWil1">Drosophila willistoni (D. willistoni Feb. 2006)</option>
+					<option value="droYak2">Drosophila yakuba (D. yakuba Nov. 2005 WUGSC 7.1)</option>
+					<option value="enceCuni_GB_M1">Encephalitozoon cuniculi GB-M1</option>
+					<option value="enceHell_ATCC50504">Encephalitozoon hellem ATCC 50504</option>
+					<option value="enceInte_ATCC50506">Encephalitozoon intestinalis ATCC 50506</option>
+					<option value="enceRoma_SJ_2008">Encephalitozoon romaleae SJ-2008</option>
+					<option value="equCab2">Equus caballus (horse) (Sep 2007)</option>
+					<option value="eremCymb_DBVPG">7215 Eremothecium cymbalariae DBVPG#7215</option>
+					<option value="eriEur2">Erinaceus europaeus (Hedgehog May 2012 EriEur2.0/eriEur2)</option>
+					<option value="felCat5">Felis catus (cat) (Felis_catus-6.2 Sept 2011)</option>
+					<option value="flamVelu_KACC42780">Flammulina velutipes KACC42780</option>
+					<option value="fr3">Takifugu rubripes (Fugu Oct. 2011 FUGU5/fr3)</option>
+					<option value="fusaGram_CS3005">Fusarium graminearum CS3005</option>
+					<option value="fusaGram_PH_1_NRRL_31084">Fusarium graminearum PH-1 NRRL 31084</option>
+					<option value="fusaPseu_CS3096">Fusarium pseudograminearum CS3096</option>
+					<option value="fusaPseu_CS3270">Fusarium pseudograminearum CS3270</option>
+					<option value="fusaVert_7600">Fusarium verticillioides 7600</option>
+					<option value="gadMor1">Gadus morhua (Atlantic cod May 2010 Genofisk GadMor_May2010/gadMor1)</option>
+					<option value="galGal4">Gallus gallus (galGal4 Nov 2011)</option>
+					<option value="gasAcu1">Gasterosteus aculeatus (stickleback) (Broad 1.0 Feb 2006)</option>
+					<option value="geoFor1">Geospiza fortis (Medium ground finch Apr. 2012 GeoFor_1.0/geoFor1)</option>
+					<option value="glyMax2">Glycine max (soybean) (Wm82.a2)</option>
+					<option value="gorGor3">Gorilla gorilla gorilla (gorilla) (gorGor3.1 May 2011)</option>
+					<option value="gosRai2">Gossypium raimondii (Cotton v2)</option>
+					<option value="hetGla2">Heterocephalus glaber (Naked mole-rat Jan. 2012 Broad HetGla_female_1.0/hetGla2)</option>
+					<option value="hg19">Homo sapiens (hg19 - NCBI Build 37.1 Feb 2009)</option>
+					<option value="hg38">Homo sapiens (hg38 - GRCh38 Dec 2013)</option>
+					<option value="kazaAfri_CBS_2517">Kazachstania africana CBS 2517</option>
+					<option value="kazaNaga_CBS_8797">Kazachstania naganishii CBS 8797</option>
+					<option value="kluyLact_NRRL_Y_1140">Kluyveromyces lactis NRRL Y-1140</option>
+					<option value="komaPast_CBS_7435">Komagataella pastoris CBS 7435</option>
+					<option value="komaPast_GS115">Komagataella pastoris GS115</option>
+					<option value="lachKluy_NRRL_Y_12651">Lachancea kluyveri NRRL Y-12651</option>
+					<option value="lachTher_CBS_6340">Lachancea thermotolerans CBS 6340</option>
+					<option value="latCha1">Latimeria chalumnae (Coelacanth Aug. 2011 Broad/latCha1)</option>
+					<option value="loxAfr3">Loxodonta africana (elephant) (Broad/July 2009)</option>
+					<option value="macEug2">Macropus eugenii (Wallaby Sep. 2009 TWGS Meug_1.1/macEug2)</option>
+					<option value="magnOryz_70_15">Magnaporthe oryzae 70-15</option>
+					<option value="manEsc6">Manihot esculenta (Cassava v6)</option>
+					<option value="medTru4">Medicago truncatula (Mt4.0v1)</option>
+					<option value="melGal1">Meleagris gallopavo (turkey) (TGC Turkey_2.01 Dec 2009)</option>
+					<option value="melUnd1">Melopsittacus undulatus (Budgerigar Sep. 2011 WUSTL v6.3/melUnd1)</option>
+					<option value="micMur1">Microcebus murinus (Mouse lemur) (Jun 2003)</option>
+					<option value="millFari_CBS_7064">Millerozyma farinosa CBS 7064</option>
+					<option value="mm10">Mus musculus (mm10 Dec 2011)</option>
+					<option value="mm9">Mus musculus (mm9 July 2007)</option>
+					<option value="monDom5">Monodelphis domestica (opossum) (Broad Oct 2006)</option>
+					<option value="musFur1">Mustela putorius furo (Ferret Apr. 2011 MusPutFur1.0/musFur1)</option>
+					<option value="myceTher_ATCC42464">Myceliophthora thermophila ATCC 42464</option>
+					<option value="myoLuc2">Myotis lucifugus (Microbat Jul. 2010 Broad Institute Myoluc2.0/myoLuc2)</option>
+					<option value="naumCast_CBS_4309">Naumovozyma castellii CBS 4309</option>
+					<option value="naumDair_CBS_421">Naumovozyma dairenensis CBS 421</option>
+					<option value="neurCras_OR74A">Neurospora crassa OR74A</option>
+					<option value="nomLeu3">Nomascus leucogenys (Gibbon Oct. 2012 GGSC Nleu3.0/nomLeu3)</option>
+					<option value="ochPri3">Ochotona princeps (Pika May 2012 OchPri3.0/ochPri3)</option>
+					<option value="ogatPara_DL_1">Ogataea parapolymorpha DL-1</option>
+					<option value="oreNil2">Oreochromis niloticus (Nile tilapia Jan. 2011 Broad oreNil1.1/oreNil2)</option>
+					<option value="ornAna1">Ornithorhynchus anatinus (platypus) (WUGSC 5.0.1 Mar 2007)</option>
+					<option value="oryCun2">Oryctolagus cuniculus (rabbit) (Broad Apr 2009)</option>
+					<option value="oryLat2">Oryzias latipes (Medaka) (Oct 2005)</option>
+					<option value="orySat7">Oryza sativa Japonica Group (Japanese rice IRGSP-1.0)</option>
+					<option value="otoGar3">Otolemur garnettii (Bushbaby Mar. 2011 Broad/otoGar3)</option>
+					<option value="oviAri1">Ovis aries (sheep) (Feb 2010)</option>
+					<option value="oviAri3">Ovis aries (sheep) (Feb 2010)</option>
+					<option value="panTro4">Pan troglodytes (Chimp Feb. 2011 CSAC 2.1.4/panTro4)</option>
+					<option value="papAnu2">Papio anubis (Baboon Mar. 2012 Baylor Panu_2.0/papAnu2)</option>
+					<option value="peniChry_P2NIAD18">Penicillium chrysogenum P2niaD18</option>
+					<option value="petMar2">Petromyzon marinus (Lamprey Sep. 2010 WUGSC 7.0/petMar2)</option>
+					<option value="plasFalc1">Plasmodium falciparum (Oct 2007)</option>
+					<option value="ponAbe2">Pongo pygmaeus abelii (Orangutan July 2007 WUGSC 2.0.2/ponAbe2)</option>
+					<option value="popTri3">Populus trichocarpa (JGI v3.0)</option>
+					<option value="priPac1">Pristionchus pacificus (WUGSC 5.0 Feb 2007)</option>
+					<option value="proCap1">Procavia capensis (Rock hyrax Jul. 2008 Broad/proCap1)</option>
+					<option value="pteVam1">Pteropus vampyrus (Megabat Jul. 2008 Broad/pteVam1)</option>
+					<option value="rheMac3">Macaca mulatta (Rhesus Oct. 2010 BGI CR_1.0/rheMac3)</option>
+					<option value="rn5">Rattus norvegicus (rn5 Mar 2012)</option>
+					<option value="rn6">Rattus norvegicus (Rat Jul. 2014 RGSC 6.0/rn6)</option>
+					<option value="sacCer3">Saccharomyces cerevisiae (S288c Apr 2011)</option>
+					<option value="saccSp_ASHBYA_ACERI">Saccharomycetaceae sp. Ashbya aceri</option>
+					<option value="saccSp_BOULARDII_17">Saccharomyces sp. boulardii 17</option>
+					<option value="saccSp_BOULARDII_ATCCMYA_796">Saccharomyces sp. boulardii ATCC MYA-796</option>
+					<option value="saiBol1">Saimiri boliviensis (Squirrel monkey Oct. 2011 Broad/saiBol1)</option>
+					<option value="sarHar1">Sarcophilus harrisii (Tasmanian devil Feb. 2011 WTSI Devil_ref v7.0/sarHar1)</option>
+					<option value="scheStip_CBS_6054">Scheffersomyces stipitis CBS 6054</option>
+					<option value="schiPomb_972H">Schizosaccharomyces pombe 972h-</option>
+					<option value="sorAra2">Sorex araneus (Shrew Aug. 2008 Broad/sorAra2)</option>
+					<option value="sorBic3">Sorghum bicolor (Version 3.1)</option>
+					<option value="speTri2">Spermophilus tridecemlineatus (Squirrel Nov. 2011 Broad/speTri2)</option>
+					<option value="sporReil_SRZ2">Sporisorium reilianum SRZ2</option>
+					<option value="susScr3">Sus scrofa (Pig Aug. 2011 SGSC Sscrofa10.2/susScr3)</option>
+					<option value="taeGut2">Taeniopygia guttata (Zebra finch Feb. 2013 WashU taeGut324/taeGut2)</option>
+					<option value="tarSyr2">Tarsius syrichta (Tarsier Sep. 2013 Tarsius_syrichta-2.0.1/tarSyr2)</option>
+					<option value="tetNig2">Tetraodon nigroviridis (tetraodon) (Genoscope 8.0 Mar 2007)</option>
+					<option value="tetrBlat_CBS_6284">Tetrapisispora blattae CBS 6284</option>
+					<option value="tetrPhaf_CBS_4417">Tetrapisispora phaffii CBS 4417</option>
+					<option value="thieTerr_NRRL_8126">Thielavia terrestris NRRL 8126</option>
+					<option value="toruDelb_CBS_1146">Torulaspora delbrueckii CBS 1146</option>
+					<option value="triMan1">Trichechus manatus latirostris (Manatee Oct. 2011 Broad v1.0/triMan1)</option>
+					<option value="turTru2">Tursiops truncatus (Dolphin Oct. 2011 Baylor Ttru_1.4/turTru2)</option>
+					<option value="ustiMayd_521">Ustilago maydis 521</option>
+					<option value="valsMali_03_8">Valsa mali 03-8</option>
+					<option value="vertDahl_JR2">Verticillium dahliae JR2</option>
+					<option value="vertDahl_VDLS_17">Verticillium dahliae VdLs.17</option>
+					<option value="vicPac2">Vicugna pacos (Alpaca Mar. 2013 Vicugna_pacos-2.0.1/vicPac2)</option>
+					<option value="vitVin1">Vitis vinifera (Grapevine 12X)</option>
+					<option value="xenTro3">Xenopus tropicalis (frog) (JGI 4.2 Nov 2009)</option>
+					<option value="yarrLipo_CLIB122">Yarrowia lipolytica CLIB122</option>
+					<option value="yarrLipo_PO1F">Yarrowia lipolytica PO1f</option>
+					<option value="yarrLipo_WSH_Z06">Yarrowia lipolytica WSH-Z06</option>
+					<option value="zeaMay6">Zea mays B73 (Version AGPv3)</option>
+					<option value="zygoRoux_CBS_732">Zygosaccharomyces rouxii CBS 732</option>
 
-						</select>
-						<small class="form-text text-muted">This is used to find which clade should be displayed.</small>
-					</div>
-				</div>
-			</div>
-			<div class="row" id="secondRow">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="inputIsotype">Isotype</label>
-						<br>
-						<select id="inputIsotype" name="inputIsotype" multiple="multiple">
-							<option value="Ala">Ala</option>
-							<option value="Arg">Arg</option>
-							<option value="Asn">Asn</option>
-							<option value="Asp">Asp</option>
-							<option value="Cys">Cys</option>
-							<option value="Gln">Gln</option>
-							<option value="Glu">Glu</option>
-							<option value="Gly">Gly</option>
-							<option value="His">His</option>
-							<option value="Ile">Ile</option>
-							<option value="iMet">iMet</option>
-							<option value="Leu">Leu</option>
-							<option value="Lys">Lys</option>
-							<option value="Met">Met</option>
-							<option value="Phe">Phe</option>
-							<option value="Pro">Pro</option>
-							<option value="Ser">Ser</option>
-							<option value="Thr">Thr</option>
-							<option value="Trp">Trp</option>
-							<option value="Tyr">Tyr</option>
-							<option value="Val">Val</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-6">
-				<div class="form-group">
-					<label for="inputClade">Input clade</label>
-						<select multiple class="form-control" name="inputClade">
-						<option>Mammalia</option>
-						<option>Fungi</option>
-						<option>Insecta</option>
-						<option>Nematoda</option>
-						<option>Spermatophyta</option>
-						<option>Streptophyta</option>
-						<option>Vertebrata</option>
-					</select>
-					<small class="form-text text-muted">Or: directly select a clade. Supercedes species selection.</small>
-					</div>
-				</div>
+				</select>
+				<small class="form-text text-muted">This is used to find which clade should be displayed.</small>
 			</div>
 		</div>
-		<div class="row" id="submitButton">
-				<button type="submit" class="btn btn-primary">Submit</button>
-		</div>
-		</form>
 	</div>
+	<div class="row" id="secondRow">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="inputIsotype">Isotype</label>
+				<br>
+				<select id="inputIsotype" name="inputIsotype" multiple="multiple">
+					<option value="Ala">Ala</option>
+					<option value="Arg">Arg</option>
+					<option value="Asn">Asn</option>
+					<option value="Asp">Asp</option>
+					<option value="Cys">Cys</option>
+					<option value="Gln">Gln</option>
+					<option value="Glu">Glu</option>
+					<option value="Gly">Gly</option>
+					<option value="His">His</option>
+					<option value="Ile">Ile</option>
+					<option value="iMet">iMet</option>
+					<option value="Leu">Leu</option>
+					<option value="Lys">Lys</option>
+					<option value="Met">Met</option>
+					<option value="Phe">Phe</option>
+					<option value="Pro">Pro</option>
+					<option value="Ser">Ser</option>
+					<option value="Thr">Thr</option>
+					<option value="Trp">Trp</option>
+					<option value="Tyr">Tyr</option>
+					<option value="Val">Val</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+			<label for="inputClade">Input clade</label>
+				<select multiple class="form-control" name="inputClade">
+				<option>Mammalia</option>
+				<option>Fungi</option>
+				<option>Insecta</option>
+				<option>Nematoda</option>
+				<option>Spermatophyta</option>
+				<option>Streptophyta</option>
+				<option>Vertebrata</option>
+			</select>
+			<small class="form-text text-muted">Or: directly select a clade. Supercedes species selection.</small>
+			</div>
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
 
 	<br>
 
 	<div class="row" id="resultsRow">
-		{% for error in errors %}
-		<div class="alert alert-danger" role="alert">{{ error }}</div>
-		{% endfor %}
-		{% if single_plot %}
-			<div class="row">
-				<div class="col-md-12">
-					<h3>Single base heatmap</h3>
-					<img src="static/{{ single_plot }}" class="img-responsive">
-				</div>
-				<div class="col-md-12">
-					<h3>Base pair heatmap</h3>
-					<img src="static/{{ paired_plot }}" class="img-responsive">
-				</div>
+		{% if finished %}
+			<div class="col-md-12">
+				<h3>Results</h3>
 			</div>
+		{% endif %}
+		<br>
+		{% for error in errors %}
+			<div class="alert alert-danger" role="alert">{{ error }}</div>
+		{% endfor %}
+		{% if alignment %}
+			<div class="col-md-12">
+				<p>Download <a href="static/{{ alignment }}">alignment</a>.</p>
+			</div>
+		{% endif %}
+		{% if table %}
+			<div class="col-md-12">
+				<p>Download <a href="static/{{ table }}">raw tabular data</a>.</p>
+			</div>
+		{% endif %}
+
+		<hr>
+
+		{% if single_plot %}
+			<div class="col-md-12">
+				<h4>Single base heatmap</h4>
+				<img src="static/{{ single_plot }}" class="img-responsive">
+			</div>
+			<div class="col-md-12">
+				<h4>Base pair heatmap</h4>
+				<img src="static/{{ paired_plot }}" class="img-responsive">
+			</div>
+
 		{% endif %}
 		</div>
 	</div>

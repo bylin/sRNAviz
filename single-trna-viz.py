@@ -24,8 +24,9 @@ def get_session_count():
 @app.route("/single-trna-heatmap", methods=['GET', 'POST'])
 def display_page():
   errors = []
-  single_plot_path = ''
-  paired_plot_path = ''
+  finished = False
+  single_plot_path, paired_plot_path, alignment_path, table_path = '', '', '', ''
+
   if request.method == "POST":
     session_id = increment_count()
     try:
@@ -48,17 +49,22 @@ def display_page():
 
       single_plot_path = 'single-plot-' + str(session_id) + '.png'
       paired_plot_path = 'paired-plot-' + str(session_id) + '.png'
+      alignment_path = 'alignment-' + str(session_id) + '.sto'
+      table_path = 'identities-' + str(session_id) + '.tsv'
 
       print('Parsed args, now running...')
       if subprocess.call(shell_cmd, shell=True) == 0:
         subprocess.call('mv {} static'.format(single_plot_path), shell=True)
         subprocess.call('mv {} static'.format(paired_plot_path), shell=True)
+        subprocess.call('mv {} static'.format(alignment_path), shell=True)
+        subprocess.call('mv {} static'.format(table_path), shell=True)
       else:
         errors.append("Something went wrong.")
+      return render_template('trna-viz.html', errors=errors, finished=True, single_plot=single_plot_path, paired_plot=paired_plot_path, alignment=alignment_path, table=table_path)
     except:
       errors.append("Something went wrong.")
   
-  return render_template('trna-viz.html', errors=errors, single_plot=single_plot_path, paired_plot=paired_plot_path)
+  return render_template('trna-viz.html', errors=errors, finished=False, single_plot=single_plot_path, paired_plot=paired_plot_path, alignment=alignment_path, table=table_path)
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=5900)
