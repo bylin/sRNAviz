@@ -34,6 +34,8 @@ if len(inserts) >= 2:
 
 # handle position 47
 inserts = list(filter(lambda x: re.match('47i\d+', x), identities.keys()))
+if len(inserts) == 0:
+  identities['47'] = '-'
 if len(inserts) >= 1:
   identities['47'] = identities[inserts[0]]
 if len(inserts) >= 2:
