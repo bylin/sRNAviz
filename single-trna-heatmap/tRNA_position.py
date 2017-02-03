@@ -78,6 +78,7 @@ def annotate_positions(ss):
           while ss[regions[region_index + 2].upper - reverse_bp_index] == '.': reverse_bp_index += 1
           paired_base = regions[region_index + 2].upper - reverse_bp_index
           positions.append(Position(position='{}:{}'.format(position + 1, paired_base + 1), sprinzl=sprinzl_positions[sprinzl_index], index=len(positions), paired=True))
+          region_numbering += 1
         elif ss[position] in [')', '>']:
           pass
         else:
@@ -92,6 +93,7 @@ def annotate_positions(ss):
           while ss[regions[region_index + 2].upper - region_numbering - reverse_bp_index] == ".": reverse_bp_index += 1
           paired_base = regions[region_index + 2].upper - region_numbering - reverse_bp_index
           positions.append(Position(position='{}:{}'.format(position + 1, paired_base + 1), sprinzl=sprinzl_positions[sprinzl_index], index=len(positions), paired=True))
+          region_numbering += 1
         elif ss[position] in [')', '>']:
           pass
         else:
@@ -100,7 +102,6 @@ def annotate_positions(ss):
         positions.append(Position(position=position + 1, sprinzl='73', index=len(positions), paired=False))
       sprinzl_index += 1
       sprinzl_insert_index = 0
-      region_numbering += 1
     if position == region.upper - 1: # end of region, reset region index and increment region number
       region_index += 1
       reverse_bp_index = 1
