@@ -37,15 +37,19 @@ def display_page():
         return render_template('trna-viz.html', errors=errors, results=results)
 
       input_species_clade = ''
-      if 'inputSpecies' in request.form: input_species_clade = request.form['inputSpecies']
       if 'inputClade' in request.form: input_species_clade = request.form['inputClade']
+      if input_species_clade == '' and 'inputSpecies' in request.form: input_species_clade = request.form['inputSpecies']
+      
+      if 'inputFreq' in request.form: input_freq = request.form['inputFreq']
+      if input_freq == '': input_freq = 0.9
+
       if len(input_species_clade) == 0:
         errors.append("Did not specify species or clade")
         return render_template('trna-viz.html', errors=errors, results=results)
 
       input_isotype = request.form.getlist('inputIsotype') # Flask receives this as multiple values with the same key (inputIsotype => Ala, inputIsotype => Cys, etc.)
       input_isotype = ','.join(input_isotype) # so, we have to format and pass to R script
-      shell_cmd = 'single-trna-heatmap/single-trna-heatmap.R {} {} {} {}'.format(input_seq, input_species_clade, input_isotype, session_id)
+      shell_cmd = 'single-trna-heatmap/single-trna-heatmap.R {} {} {} {} {}'.format(input_seq, input_species_clade, input_isotype, session_id, input_freq)
 
       single_plot_path = 'single-plot-' + str(session_id) + '.png'
       paired_plot_path = 'paired-plot-' + str(session_id) + '.png'
@@ -60,11 +64,12 @@ def display_page():
         subprocess.call('mv {} static'.format(table_path), shell=True)
       else:
         errors.append("Something went wrong.")
+        return render_template('trna-viz.html', errors=errors, finished=False)
       return render_template('trna-viz.html', errors=errors, finished=True, single_plot=single_plot_path, paired_plot=paired_plot_path, alignment=alignment_path, table=table_path)
     except:
       errors.append("Something went wrong.")
   
-  return render_template('trna-viz.html', errors=errors, finished=False, single_plot=single_plot_path, paired_plot=paired_plot_path, alignment=alignment_path, table=table_path)
+  return render_template('trna-viz.html', errors=errors, finished=False)
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=5900)

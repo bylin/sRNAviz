@@ -21,15 +21,15 @@ args = commandArgs(trailingOnly=TRUE)
 seq = args[1]
 input_species_clade = args[2]
 input_isotypes = args[3]
-input_isotypes = unlist(str_split(input_isotypes, ','))
 session_id = args[4]
+input_cutoff = args[5]
+input_isotypes = unlist(str_split(input_isotypes, ','))
 single_plot_path = paste0('single-plot-', session_id, '.png')
 paired_plot_path = paste0('paired-plot-', session_id, '.png')
 
 # Read in data
-isotype_specific = read.table('single-trna-heatmap/isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
-clade_isotype_specific = read.table('single-trna-heatmap/clade-isotype-specific.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
-identities = rbind(cbind(isotype_specific, clade='Eukarya'), cbind(clade_isotype_specific))
+freqs = read.table('single-trna-heatmap/freqs.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
+freqs = freqs %>% filter(cutoff == as.numeric(input_cutoff)) %>% select(-cutoff)
 genome_table = read.delim('single-trna-heatmap/genome_table+.txt', header=FALSE, sep='\t', stringsAsFactors=FALSE)
 if (input_species_clade %in% genome_table$V5) {
   input_clade = input_species_clade
@@ -63,25 +63,25 @@ df = df %>% filter(!str_detect(X1, "i") & !str_detect(X1, 'V'))
 df$X1 = gsub("^", "X", gsub(':', '.', df$X1))
 df = df[, c(3, 1, 5, 4)]
 colnames(df) = c("isotype", "positions", "identity", "clade")
-identities = rbind(identities, df)
+freqs = rbind(freqs, df)
 
 # Wrange main data frame for plotting
 matches_input = function(isotype, positions, identity) {
   codes = list(A='A', C='C', G='G', U='U', Deletion='Deletion', Purine=c('A', 'G', 'Purine'), Pyrimidine=c('C', 'U', 'Pyrimidine'), Weak=c('A', 'U', 'Weak'), Strong=c('G', 'C', 'Strong'), Amino=c('A', 'C', 'Amino'), Keto=c('G', 'U', 'Keto'), B=c('C', 'G', 'U', 'B', 'Strong', 'Pyrimidine', 'Keto'), D=c('A', 'G', 'U', 'D', 'Purine', 'Weak', 'Keto'), H=c('A', 'C', 'U', 'H', 'Amino', 'Weak', 'Pyrimidine'), V=c('A', 'C', 'G', 'V', 'Amino', 'Purine', 'Strong'), GC='GC', AU='AU', UA='UA', CG='CG', GU='GU', UG='UG', PairDeletion='PairDeletion', PurinePyrimidine=c('AU', 'GC', 'PurinePyrimidine'), PyrimidinePurine=c('UA', 'CG', 'PyrimidinePurine'), StrongPair=c('GC', 'CG', 'StrongPair'), WeakPair=c('AU', 'UA', 'WeakPair'), Wobble=c('GU', 'UG', 'Wobble'), Paired=c('AU', 'UA', 'CG', 'GC', 'GU', 'UG', 'Paired', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble'), Bulge=c('Bulge'), Mismatched=c('AA', 'GG', 'CC', 'UU', 'AG', 'AC', 'CA', 'CU', 'GA', 'UC', 'Mismatched', 'Paired', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble'))
-  input_identity = identities[identities$positions == positions & identities$clade == "Input", ]$identity
+  input_identity = freqs[freqs$positions == positions & freqs$clade == "Input", ]$identity
   if (length(input_identity) != 1) print(paste("Too many codes", isotype, positions, identity))
   return(input_identity %in% codes[[as.character(identity)]])
 }
-identities = identities %>% 
+freqs = freqs %>% 
   filter(isotype %in% c("Input", input_isotypes) & clade %in% c("Eukarya", "Input", input_clade)) %>% 
   mutate(category=ifelse(clade != "Input", paste0(isotype, ' - ', clade), "Your Sequence")) %>%
   rowwise() %>% mutate(Match=matches_input(isotype, positions, identity))
 
 # Write data to file
-write.table(identities[, c('isotype', 'positions', 'identity', 'clade', 'Match')], file=paste0('identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
+write.table(freqs[, c('isotype', 'positions', 'identity', 'clade', 'Match')], file=paste0('identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
 
 # Single plot
-plot = identities %>% filter(positions %in% names(single_positions)) %>%
+plot = freqs %>% filter(positions %in% names(single_positions)) %>%
   mutate(positions=factor(positions, names(single_positions))) %>%
   mutate(identity=factor(identity, single_identities)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
@@ -96,7 +96,7 @@ plot = identities %>% filter(positions %in% names(single_positions)) %>%
 ggsave(plot, file=single_plot_path, width=8, height=1.8+0.44*length(input_isotypes))
 
 # Paired plot
-plot = identities %>% 
+plot = freqs %>% 
   filter(positions %in% names(paired_positions)) %>%
   mutate(positions=factor(positions, names(paired_positions))) %>%
   mutate(identity=factor(identity, paired_identities)) %>%

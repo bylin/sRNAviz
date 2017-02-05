@@ -187,7 +187,23 @@
 		</div>
 	</div>
 	<div class="row" id="secondRow">
-		<div class="col-md-6">
+		<div class="col-md-3">
+			<div class="form-group">
+				<label for="inputFreq">Frequency cutoff</label>
+				<select class="form-control" name="inputFreq">
+					<option hidden></option>
+					<option value="0.99">99%</option>
+					<option value="0.95">95%</option>
+					<option value="0.9">90%</option>
+					<option value="0.8">80%</option>
+					<option value="0.7">70%</option>
+					<option value="0.6">60%</option>
+					<option value="0.5">50%</option>
+				</select>
+				<small class="form-text text-muted">Defaults to 90%.</small>
+			</div>
+		</div>
+		<div class="col-md-3">
 			<div class="form-group">
 				<label for="inputIsotype">Isotype</label>
 				<br>
@@ -219,7 +235,8 @@
 		<div class="col-md-6">
 		<div class="form-group">
 			<label for="inputClade">Input clade</label>
-				<select multiple class="form-control" name="inputClade">
+			<select class="form-control" name="inputClade">
+				<option hidden></option>
 				<option>Mammalia</option>
 				<option>Fungi</option>
 				<option>Insecta</option>
@@ -241,9 +258,10 @@
 	<div class="row" id="resultsRow">
 		{% if finished %}
 			<div class="col-md-12">
-				<h3>Results</h3>
+				<h3>Results <sup><small><a data-toggle="tooltip" title="Results are cleared after 24 hours">[?]</a></small></sup></h3>
 			</div>
 		{% endif %}
+		<br>
 		<br>
 		{% for error in errors %}
 			<div class="alert alert-danger" role="alert">{{ error }}</div>
@@ -287,4 +305,7 @@
     $(document).ready(function() {
         $('#inputIsotype').multiselect();
     });
+
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
 </script>
+
