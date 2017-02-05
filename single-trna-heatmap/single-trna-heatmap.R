@@ -24,8 +24,8 @@ input_isotypes = args[3]
 session_id = args[4]
 input_cutoff = args[5]
 input_isotypes = unlist(str_split(input_isotypes, ','))
-single_plot_path = paste0('single-plot-', session_id, '.png')
-paired_plot_path = paste0('paired-plot-', session_id, '.png')
+single_plot_path = paste0('/tmp/single-plot-', session_id, '.png')
+paired_plot_path = paste0('/tmp/paired-plot-', session_id, '.png')
 
 # Read in data
 freqs = read.table('single-trna-heatmap/freqs.tsv', sep='\t', header=TRUE, stringsAsFactors=FALSE)
@@ -38,13 +38,13 @@ if (input_species_clade %in% genome_table$V5) {
 }
 
 # write fasta file
-fasta_file = paste0('seq-', session_id, '.fa')
+fasta_file = paste0('/tmp/seq-', session_id, '.fa')
 fasta_handle = file(fasta_file) 
 writeLines(c(paste0(">", fasta_file), seq), fasta_file)
 close(fasta_handle)
 
 # Align seq
-alignment_file = paste0('alignment-', session_id, '.sto')
+alignment_file = paste0('/tmp/alignment-', session_id, '.sto')
 model = '/projects/lowelab/users/blin/tRNAscan/models/current/TRNAinf-euk.cm'
 output = system(paste('cmalign -g --notrunc', model, fasta_file, '| tee', alignment_file), intern=TRUE)
 seq = tail(unlist(str_split(output[4], '\\s+')), 1)
@@ -78,7 +78,7 @@ freqs = freqs %>%
   rowwise() %>% mutate(Match=matches_input(isotype, positions, identity))
 
 # Write data to file
-write.table(freqs[, c('isotype', 'positions', 'identity', 'clade', 'Match')], file=paste0('identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
+write.table(freqs[, c('isotype', 'positions', 'identity', 'clade', 'Match')], file=paste0('/tmp/identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
 
 # Single plot
 plot = freqs %>% filter(positions %in% names(single_positions)) %>%

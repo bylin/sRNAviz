@@ -58,10 +58,10 @@ def display_page():
 
       print('Parsed args, now running...')
       if subprocess.call(shell_cmd, shell=True) == 0:
-        subprocess.call('mv {} static'.format(single_plot_path), shell=True)
-        subprocess.call('mv {} static'.format(paired_plot_path), shell=True)
-        subprocess.call('mv {} static'.format(alignment_path), shell=True)
-        subprocess.call('mv {} static'.format(table_path), shell=True)
+        subprocess.call('mv /tmp/{} static/{}'.format(single_plot_path, single_plot_path), shell=True)
+        subprocess.call('mv /tmp/{} static/{}'.format(paired_plot_path, paired_plot_path), shell=True)
+        subprocess.call('mv /tmp/{} static/{}'.format(alignment_path, alignment_path), shell=True)
+        subprocess.call('mv /tmp/{} static/{}'.format(table_path, table_path), shell=True)
       else:
         errors.append("Something went wrong.")
         return render_template('trna-viz.html', errors=errors, finished=False)
