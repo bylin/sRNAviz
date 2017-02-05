@@ -144,7 +144,7 @@ get_clade_isotype_IDE = function(clade, isotype, position, codes) {
 }
 
 df = data.frame()
-for (cutoff in c(0.5, 0.6, 0.7, 0.8, 0.9)) {
+for (cutoff in c(0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99)) {
   print(paste0("Processing freqs at a cutoff of ", cutoff))
   best_freqs = clade_iso_freqs %>%
     group_by(isotype, positions, clade, variable) %>% # remove duplicates
@@ -154,12 +154,12 @@ for (cutoff in c(0.5, 0.6, 0.7, 0.8, 0.9)) {
     group_by(isotype, clade, positions) %>%
     filter(row_number(freq) == 1)
   isotype_specific = best_freqs %>%
-    group_by(isotype, positions) %>% 
+    group_by(isotype, positions, cutoff) %>% 
     summarize(identity = get_isotype_IDE(isotype, positions, variable)) %>%
     mutate(clade='Eukarya') %>%
     filter(identity != "N/A")
   clade_isotype_specific = best_freqs %>%
-    group_by(clade, isotype, positions) %>% 
+    group_by(clade, isotype, positions, cutoff) %>% 
     summarize(identity = get_clade_isotype_IDE(clade, isotype, positions, variable)) %>%
     filter(identity != 'N/A')
 
