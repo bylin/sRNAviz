@@ -83,19 +83,22 @@ freqs = freqs %>%
 write.table(freqs[, c('isotype', 'positions', 'identity', 'clade', 'match')], file=paste0('/tmp/identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
 
 # Single plot
-plot = freqs %>% filter(positions %in% names(single_positions)) %>%
+plot = freqs %>%
+  filter(positions %in% names(single_positions)) %>%
   mutate(positions=factor(positions, names(single_positions))) %>%
   mutate(identity=factor(identity, single_identities)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
     geom_point(aes(x=positions, y=category, shape=match)) +
     scale_shape_manual(values=c(4, 1, 2), labels=c("Conflict", "Match", "Subset")) +
-    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=single_positions) +
     scale_color_manual(values=single_colors) +
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
-    guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
+    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom', legend.text=element_text(size=8)) + 
+    guides(fill=guide_legend(title=NULL, nrow=2, keywidth=0.8, keyheight=0.8, order=2), 
+           color=guide_legend(title=NULL, nrow=2, keywidth=0.8, keyheight=0.8, order=2), 
+           shape=guide_legend(title=NULL, keywidth=0.8, keyheight=0.8, order=1)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file=single_plot_path, width=8, height=1.8+0.44*length(input_isotypes))
+ggsave(plot, file=single_plot_path, width=8, height=1.65+0.42*length(input_isotypes))
 
 # Paired plot
 plot = freqs %>% 
@@ -105,13 +108,15 @@ plot = freqs %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
     geom_point(aes(x=positions, y=category, shape=match)) +
     scale_shape_manual(values=c(4, 1, 2), labels=c("Conflict", "Match", "Subset")) +
-    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=paired_positions) +
     scale_color_manual(values=paired_colors) +
     scale_fill_manual(values=c(brewer.pal(5, "Set1"), brewer.pal(12, "Set3"))) +
-    guides(fill=guide_legend(title=NULL, nrow=2), color=guide_legend(title=NULL, nrow=2), shape=guide_legend(title=NULL)) + 
+    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom', legend.text=element_text(size=8)) + 
+    guides(fill=guide_legend(title=NULL, nrow=2, keywidth=0.8, keyheight=0.8, order=2),
+           color=guide_legend(title=NULL, nrow=2, keywidth=0.8, keyheight=0.8, order=2),
+           shape=guide_legend(title=NULL, keywidth=0.8, keyheight=0.8, order=1)) + 
     xlab('Position') + ylab('Dataset')
-ggsave(plot, file=paired_plot_path, width=8, height=1.95+0.46*length(input_isotypes))
+ggsave(plot, file=paired_plot_path, width=8, height=1.75+0.48*length(input_isotypes))
 
 # clean up fasta file
 system(paste0("rm ", fasta_file))
