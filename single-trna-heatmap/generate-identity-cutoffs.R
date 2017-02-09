@@ -44,7 +44,7 @@ identities = read.delim('identities.tsv', sep='\t', stringsAsFactors=FALSE)
 identities$quality = as.logical(identities$quality)
 identities$restrict = as.logical(identities$restrict)
 positions = colnames(identities)[which(str_detect(colnames(identities), "X\\d+\\.\\d+$"))]
-positions = c(positions, 'X8', 'X9', 'X14', 'X15', 'X16', 'X17', 'X18', 'X19', 'X20', 'X20a', 'X21', 'X26', 'X32', 'X33', 'X34', 'X35', 'X36', 'X37', 'X38', 'X44', 'X45', 'X46', 'X47', 'X48', 'X54', 'X55', 'X56', 'X57', 'X58', 'X59', 'X60', 'X73')
+positions = c(positions, 'X8', 'X9', 'X14', 'X15', 'X16', 'X17', 'X17a', 'X18', 'X19', 'X20', 'X20a', 'X20b', 'X21', 'X26', 'X32', 'X33', 'X34', 'X35', 'X36', 'X37', 'X38', 'X44', 'X45', 'X46', 'X47', 'X48', 'X54', 'X55', 'X56', 'X57', 'X58', 'X59', 'X60', 'X73')
 
 print("Getting raw clade/isotype freqs")
 clade_iso_freqs = identities %>%
@@ -143,27 +143,33 @@ get_clade_isotype_IDE = function(clade, isotype, position, codes) {
   return("N/A")
 }
 
-df = data.frame()
+best_freqs = data.frame()
 for (cutoff in c(0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99)) {
   print(paste0("Processing freqs at a cutoff of ", cutoff))
-  best_freqs = clade_iso_freqs %>%
+  df = clade_iso_freqs %>%
     group_by(isotype, positions, clade, variable) %>% # remove duplicates
     summarize(count=sum(value), freq=sum(value)/sum(total)) %>%
     filter(freq > cutoff) %>%
     mutate(cutoff=cutoff) %>%
     group_by(isotype, clade, positions) %>%
     filter(row_number(freq) == 1)
-  isotype_specific = best_freqs %>%
-    group_by(isotype, positions, cutoff) %>% 
-    summarize(identity = get_isotype_IDE(isotype, positions, variable)) %>%
-    mutate(clade='Eukarya') %>%
-    filter(identity != "N/A")
-  clade_isotype_specific = best_freqs %>%
-    group_by(clade, isotype, positions, cutoff) %>% 
-    summarize(identity = get_clade_isotype_IDE(clade, isotype, positions, variable)) %>%
-    filter(identity != 'N/A')
-
-  if (nrow(df) == 0) df = rbind(isotype_specific, clade_isotype_specific)
-  else df = rbind(df, isotype_specific, clade_isotype_specific)
+  if (nrow(best_freqs) == 0) best_freqs = df
+  else best_freqs = rbind(best_freqs, df)
 }
+
+print("Resolving isotype-specific IDEs")
+isotype_specific = best_freqs %>%
+  group_by(isotype, positions, cutoff) %>% 
+  summarize(identity = get_isotype_IDE(isotype, positions, variable)) %>%
+  mutate(clade='Eukarya') %>%
+  filter(identity != "N/A")
+
+print("Resolving clade-isotype-specific IDEs")
+clade_isotype_specific = best_freqs %>%
+  group_by(clade, isotype, positions, cutoff) %>% 
+  summarize(identity = get_clade_isotype_IDE(clade, isotype, positions, variable)) %>%
+  filter(identity != 'N/A')
+
+df = rbind(isotype_specific, clade_isotype_specific)
+
 write.table(df, file='freqs.tsv', sep='\t', quote=FALSE, row.names=FALSE)
