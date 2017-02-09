@@ -12,7 +12,7 @@ paired_positions = c('X1.72'='(A) 1:72', 'X2.71'='(A) 2:71', 'X3.70'='(A) 3:70',
 paired_identities = c('GC', 'AU', 'UA', 'CG', 'GU', 'UG', 'PairDeletion', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble', 'Paired', 'Bulge', 'Mismatched')
 paired_colors = c('GC'='gray20', 'AU'='gray20', 'UA'='gray20', 'CG'='gray20', 'GU'='gray20', 'UG'='gray20', 'PairDeletion'='gray20', 'PurinePyrimidine'='gray40', 'PyrimidinePurine'='gray40', 'StrongPair'='gray40', 'WeakPair'='gray40', 'Wobble'='gray40', 'Paired'='gray40', 'Bulge'='gray40', 'Mismatched'='gray40')
 
-single_positions = c('X8'='8', 'X9'='9', 'X14'='(D) 14', 'X15'='(D) 15', 'X16'='(D) 16', 'X17'='(D) 17', 'X18'='(D) 18', 'X19'='(D) 19', 'X20'='(D) 20', 'X20a'='(D) 20a', 'X21'='(D) 21', 'X26'='26', 'X32'='(C) 32', 'X33'='(C) 33', 'X34'='(C) 34', 'X35'='(C) 35', 'X36'='(C) 36', 'X37'='(C) 37', 'X38'='(C) 38', 'X44'='(V) 44', 'X45'='(V) 45', 'X46'='(V) 46', 'X47'='(V) 47', 'X48'='(V) 48', 'X54'='(T) 54', 'X55'='(T) 55', 'X56'='(T) 56', 'X57'='(T) 57', 'X58'='(T) 58', 'X59'='(T) 59', 'X60'='(T) 60', 'X73'='73')
+single_positions = c('X8'='8', 'X9'='9', 'X14'='(D) 14', 'X15'='(D) 15', 'X16'='(D) 16', 'X17'='(D) 17', 'X17a'='(D) 17a', 'X18'='(D) 18', 'X19'='(D) 19', 'X20'='(D) 20', 'X20a'='(D) 20a', 'X20b'='(D) 20b', 'X21'='(D) 21', 'X26'='26', 'X32'='(C) 32', 'X33'='(C) 33', 'X34'='(C) 34', 'X35'='(C) 35', 'X36'='(C) 36', 'X37'='(C) 37', 'X38'='(C) 38', 'X44'='(V) 44', 'X45'='(V) 45', 'X46'='(V) 46', 'X47'='(V) 47', 'X48'='(V) 48', 'X54'='(T) 54', 'X55'='(T) 55', 'X56'='(T) 56', 'X57'='(T) 57', 'X58'='(T) 58', 'X59'='(T) 59', 'X60'='(T) 60', 'X73'='73')
 single_identities = c('A', 'C', 'G', 'U', 'Deletion', 'Purine', 'Pyrimidine', 'Weak', 'Strong', 'Amino', 'Keto', 'B', 'D', 'H', 'V')
 single_colors = c('A'='gray20', 'C'='gray20', 'G'='gray20', 'U'='gray20', 'Deletion'='gray20', 'Purine'='gray40', 'Pyrimidine'='gray40', 'Weak'='gray40', 'Strong'='gray40', 'Amino'='gray40', 'Keto'='gray40', 'B'='gray40', 'D'='gray40', 'H'='gray40', 'V'='gray40')
 
@@ -45,7 +45,7 @@ close(fasta_handle)
 
 # Align seq
 alignment_file = paste0('/tmp/alignment-', session_id, '.sto')
-model = '/projects/lowelab/users/blin/tRNAscan/models/current/TRNAinf-euk.cm'
+model = '/projects/lowelab/users/blin/tRNAscan/models/domain-specific/euk-num-092016.cm'
 output = system(paste('cmalign -g --notrunc', model, fasta_file, '| tee', alignment_file), intern=TRUE)
 seq = tail(unlist(str_split(output[4], '\\s+')), 1)
 ss = tail(unlist(str_split(output[6], '\\s+')), 1)

@@ -23,32 +23,14 @@ ss = sys.stdin.readline()
 positions = annotate_positions(ss)
 identities = {sprinzl:base for sprinzl, base in position_base(positions, seq)}
 
-# handle 20ab inserts
-inserts = list(filter(lambda x: re.match('2\di\d+', x), identities.keys()))
-if len(inserts) == 0:
-  identities['20a'] = '-'
-if len(inserts) >= 1:
-  identities['20a'] = identities[inserts[0]]
-if len(inserts) >= 2:
-  identities['20b'] = identities[inserts[1]]
-
-# handle position 47
-inserts = list(filter(lambda x: re.match('47i\d+', x), identities.keys()))
-if len(inserts) == 0:
-  identities['47'] = '-'
-if len(inserts) >= 1:
-  identities['47'] = identities[inserts[0]]
-if len(inserts) >= 2:
-  identities['47i1'] = identities[inserts[1]]
-
-# create 3d base pairs
 # create single base identities from paired identities
 cols = list(filter(lambda x: ':' in x, identities.keys()))
 for col in cols:
   pos1, pos2 = col.split(':')
   identities[pos1] = identities[col].split(':')[0]
   identities[pos2] = identities[col].split(':')[1]
-# then, add the actual 3d base pairs
+
+# create 3d base pairs
 identities['8:14'] = '{}:{}'.format(identities['8'], identities['14'])
 identities['9:23'] = '{}:{}'.format(identities['9'], identities['23'])
 identities['10:45'] = '{}:{}'.format(identities['10'], identities['45'])
