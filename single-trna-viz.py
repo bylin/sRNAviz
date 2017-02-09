@@ -25,7 +25,7 @@ def get_session_count():
 def display_page():
   errors = []
   finished = False
-  single_plot_path, paired_plot_path, alignment_path, table_path = '', '', '', ''
+  single_plot_path, paired_plot_path, alignment_path, table_path, alignment_txt, table_txt = '', '', '', '', '', ''
 
   if request.method == "POST":
     session_id = increment_count()
@@ -54,7 +54,9 @@ def display_page():
       single_plot_path = 'single-plot-' + str(session_id) + '.png'
       paired_plot_path = 'paired-plot-' + str(session_id) + '.png'
       alignment_path = 'alignment-' + str(session_id) + '.sto'
+      alignment_txt = alignment_path + '.txt'
       table_path = 'identities-' + str(session_id) + '.tsv'
+      table_txt = table_path + '.txt'
 
       print('Parsed args, now running...')
       if subprocess.call(shell_cmd, shell=True) == 0:
@@ -62,10 +64,12 @@ def display_page():
         subprocess.call('mv /tmp/{} static/{}'.format(paired_plot_path, paired_plot_path), shell=True)
         subprocess.call('mv /tmp/{} static/{}'.format(alignment_path, alignment_path), shell=True)
         subprocess.call('mv /tmp/{} static/{}'.format(table_path, table_path), shell=True)
+        subprocess.call('ln -s {} static/{}'.format(alignment_path, alignment_txt), shell=True)
+        subprocess.call('ln -s {} static/{}'.format(table_path, table_txt), shell=True)
       else:
         errors.append("Something went wrong.")
         return render_template('trna-viz.html', errors=errors, finished=False)
-      return render_template('trna-viz.html', errors=errors, finished=True, single_plot=single_plot_path, paired_plot=paired_plot_path, alignment=alignment_path, table=table_path)
+      return render_template('trna-viz.html', errors=errors, finished=True, single_plot=single_plot_path, paired_plot=paired_plot_path, alignment=alignment_path, table=table_path, alignment_txt=alignment_path+'.txt', table_txt=table_path+'.txt')
     except:
       errors.append("Something went wrong.")
   
