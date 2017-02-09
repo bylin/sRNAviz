@@ -68,25 +68,27 @@ freqs = rbind(freqs, df)
 # Wrange main data frame for plotting
 matches_input = function(isotype, positions, identity) {
   codes = list(A='A', C='C', G='G', U='U', Deletion='Deletion', Purine=c('A', 'G', 'Purine'), Pyrimidine=c('C', 'U', 'Pyrimidine'), Weak=c('A', 'U', 'Weak'), Strong=c('G', 'C', 'Strong'), Amino=c('A', 'C', 'Amino'), Keto=c('G', 'U', 'Keto'), B=c('C', 'G', 'U', 'B', 'Strong', 'Pyrimidine', 'Keto'), D=c('A', 'G', 'U', 'D', 'Purine', 'Weak', 'Keto'), H=c('A', 'C', 'U', 'H', 'Amino', 'Weak', 'Pyrimidine'), V=c('A', 'C', 'G', 'V', 'Amino', 'Purine', 'Strong'), GC='GC', AU='AU', UA='UA', CG='CG', GU='GU', UG='UG', PairDeletion='PairDeletion', PurinePyrimidine=c('AU', 'GC', 'PurinePyrimidine'), PyrimidinePurine=c('UA', 'CG', 'PyrimidinePurine'), StrongPair=c('GC', 'CG', 'StrongPair'), WeakPair=c('AU', 'UA', 'WeakPair'), Wobble=c('GU', 'UG', 'Wobble'), Paired=c('AU', 'UA', 'CG', 'GC', 'GU', 'UG', 'Paired', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble'), Bulge=c('Bulge'), Mismatched=c('AA', 'GG', 'CC', 'UU', 'AG', 'AC', 'CA', 'CU', 'GA', 'UC', 'Mismatched', 'Paired', 'PurinePyrimidine', 'PyrimidinePurine', 'StrongPair', 'WeakPair', 'Wobble'))
-  input_identity = freqs[freqs$positions == positions & freqs$clade == "Input", ]$identity
-  if (length(input_identity) != 1) print(paste("Too many codes", isotype, positions, identity))
-  return(input_identity %in% codes[[as.character(identity)]])
+  seq_identity = freqs[freqs$positions == positions & freqs$clade == "Input", ]$identity
+  if (length(seq_identity) != 1) print(paste("Too many codes", isotype, positions, identity))
+  return(ifelse(seq_identity == as.character(identity),
+                "Match", 
+                ifelse(seq_identity %in% codes[[as.character(identity)]], "Subset", "Conflict")))
 }
 freqs = freqs %>% 
   filter(isotype %in% c("Input", input_isotypes) & clade %in% c("Eukarya", "Input", input_clade)) %>% 
   mutate(category=ifelse(clade != "Input", paste0(isotype, ' - ', clade), "Your Sequence")) %>%
-  rowwise() %>% mutate(Match=matches_input(isotype, positions, identity))
+  rowwise() %>% mutate(match=matches_input(isotype, positions, identity))
 
 # Write data to file
-write.table(freqs[, c('isotype', 'positions', 'identity', 'clade', 'Match')], file=paste0('/tmp/identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
+write.table(freqs[, c('isotype', 'positions', 'identity', 'clade', 'match')], file=paste0('/tmp/identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
 
 # Single plot
 plot = freqs %>% filter(positions %in% names(single_positions)) %>%
   mutate(positions=factor(positions, names(single_positions))) %>%
   mutate(identity=factor(identity, single_identities)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
-    geom_point(aes(x=positions, y=category, shape=Match)) +
-    scale_shape_manual(values=c(4, 1), labels=c("Conflict", "Match")) +
+    geom_point(aes(x=positions, y=category, shape=match)) +
+    scale_shape_manual(values=c(4, 1, 2), labels=c("Conflict", "Match", "Subset")) +
     theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=single_positions) +
     scale_color_manual(values=single_colors) +
@@ -101,8 +103,8 @@ plot = freqs %>%
   mutate(positions=factor(positions, names(paired_positions))) %>%
   mutate(identity=factor(identity, paired_identities)) %>%
   ggplot() + geom_tile(aes(x=positions, y=category, fill=identity, color=identity), width=0.9, height=0.9, size=0.5) + 
-    geom_point(aes(x=positions, y=category, shape=Match)) +
-    scale_shape_manual(values=c(4, 1), labels=c("Conflict", "Match")) +
+    geom_point(aes(x=positions, y=category, shape=match)) +
+    scale_shape_manual(values=c(4, 1, 2), labels=c("Conflict", "Match", "Subset")) +
     theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5), legend.position='bottom') + 
     scale_x_discrete(labels=paired_positions) +
     scale_color_manual(values=paired_colors) +
