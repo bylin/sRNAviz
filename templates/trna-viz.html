@@ -20,7 +20,7 @@
 		</div>
 		<div class="col-md-6">
 			<div class="form-group">
-				<label for="inputSpecies">Species code</label>
+				<label for="inputSpecies">Species</label>
 				<select multiple class="form-control" name="inputSpecies">
 					<option value="ailMel1">Ailuropoda melanoleuca (panda) (BGI-Shenzhen AilMel 1.0 Dec 2009)</option>
 					<option value="anoCar2">Anolis carolinensis (lizard) (Broad AnoCar2.0 May 2010)</option>
@@ -257,7 +257,7 @@
 	<div class="row" id="resultsRow">
 		{% if finished %}
 			<div class="col-md-12">
-				<h3>Results <sup><small><a data-toggle="tooltip" title="Results are cleared after 24 hours">[?]</a></small></sup></h3>
+				<h3>Results <sup><small><a><span data-toggle="tooltip" title="Results are cleared after 24 hours" data-template='<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="max-width: none; white-space:nowrap;"></div></div>'>[?]</span></a></small></sup></h3>
 			</div>
 		{% endif %}
 		<br>
