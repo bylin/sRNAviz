@@ -4,6 +4,7 @@ library(RColorBrewer)
 suppressMessages(library(dplyr))
 library(stringr)
 theme_set(theme_bw())
+options(warn=-1)
 
 # Setup convenience globals
 isotypes = c('Ala', 'Arg', 'Asn', 'Asp', 'Cys', 'Gln', 'Glu', 'Gly', 'His', 'Ile', 'iMet', 'Leu', 'Lys', 'Met', 'Phe', 'Pro', 'Ser', 'Thr', 'Trp', 'Tyr', 'Val')
@@ -78,6 +79,16 @@ freqs = freqs %>%
   filter(isotype %in% c("Input", input_isotypes) & clade %in% c("Eukarya", "Input", input_clade)) %>% 
   mutate(category=ifelse(clade != "Input", paste0(isotype, ' - ', clade), "Your Sequence")) %>%
   rowwise() %>% mutate(match=matches_input(isotype, positions, identity))
+
+# Set ordering for plot y axis. This generates a rowwise warning because of above rowwise(). Ignore it.
+cat_ordering = freqs %>%
+  group_by(category) %>% 
+  summarize(order = 100 * (unique(category) == "Your Sequence") + # Your Seq first
+                    2 * sum(match == "Match") + # then order by no. matches/subset matches/conflicts
+                    sum(match == "Subset") -
+                    2 * sum(match == "Conflict")) %>%
+  arrange(order)
+freqs$category = factor(freqs$category, levels=cat_ordering$category)
 
 # Write data to file
 write.table(freqs[, c('isotype', 'positions', 'identity', 'clade', 'match')], file=paste0('/tmp/identities-', session_id, '.tsv'), quote=FALSE, sep='\t', row.names=FALSE)
