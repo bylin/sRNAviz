@@ -47,7 +47,7 @@ def annotate_positions(ss):
   for i, indices in enumerate([r.span() for r in re.finditer('([\(\.]+\()|(<[<\.]+<)|[_\.]+|>[>\.]+>|\)[\)\.]+', ss)]):
     left, right = indices
     if re.search('[\(<_>\)]', ss[left:right]): loop_indices.append(indices)
-  regions = ['acceptor', 'dstem', 'dloop', 'dstem', 'acstem', 'acloop', 'acstem', 'vstem', 'vloop', 'vstem', 'tpcstem', 'tpcloop', 'tpcstem', 'acstem']
+  regions = ['acceptor', 'dstem', 'dloop', 'dstem', 'acstem', 'acloop', 'acstem', 'vstem', 'vloop', 'vstem', 'tpcstem', 'tpcloop', 'tpcstem', 'acceptor']
   regions = [Region(indices[0], indices[1], name) for indices, name in zip(loop_indices, regions[:])]
   region = regions[0]
   positions = []
@@ -70,10 +70,12 @@ def annotate_positions(ss):
       if position < region.lower: # before the next region starts (or if it's the last region), annotate as single bases
         positions.append(Position(position=str(position + 1), sprinzl=sprinzl_positions[sprinzl_index], index=len(positions), paired=False))
       elif position == region.lower: # start of region: begin region numbering at 1
+        insert_index = 0
         if ss[position] == "(":
           while ss[regions[-1].upper - reverse_bp_index] == ".": reverse_bp_index += 1
           paired_base = regions[-1].upper - reverse_bp_index
           positions.append(Position(position='{}:{}'.format(position + 1, paired_base + 1), sprinzl=sprinzl_positions[sprinzl_index], index=len(positions), paired=True))
+          region_numbering += 1
         elif ss[position] == "<":
           while ss[regions[region_index + 2].upper - reverse_bp_index] == '.': reverse_bp_index += 1
           paired_base = regions[region_index + 2].upper - reverse_bp_index
@@ -86,9 +88,10 @@ def annotate_positions(ss):
       elif position > region.lower and position <= region.upper - 1: # inside region: increment region numbering normally
         # find paired base, or skip if base is the opposite strand
         if ss[position] == "(":
-          while ss[regions[-1].upper - (position - regions[0].lower) - reverse_bp_index] == ".": reverse_bp_index += 1
-          paired_base = regions[-1].upper - (position - regions[0].lower) - reverse_bp_index
+          while ss[regions[-1].upper - region_numbering - reverse_bp_index] == ".": reverse_bp_index += 1
+          paired_base = regions[-1].upper - region_numbering - reverse_bp_index
           positions.append(Position(position='{}:{}'.format(position + 1, paired_base + 1), sprinzl=sprinzl_positions[sprinzl_index], index=len(positions), paired=True))
+          region_numbering += 1
         elif ss[position] == "<":
           while ss[regions[region_index + 2].upper - region_numbering - reverse_bp_index] == ".": reverse_bp_index += 1
           paired_base = regions[region_index + 2].upper - region_numbering - reverse_bp_index
@@ -98,7 +101,7 @@ def annotate_positions(ss):
           pass
         else:
           positions.append(Position(position=str(position + 1), sprinzl=sprinzl_positions[sprinzl_index], index=len(positions), paired=False))
-      else: # should be the last one; last two bases in the alignment are always '):'
+      else: # last few bases should be '::::', no inserts here
         positions.append(Position(position=position + 1, sprinzl=sprinzl_positions[sprinzl_index], index=len(positions), paired=False))
       sprinzl_index += 1
       sprinzl_insert_index = 0
