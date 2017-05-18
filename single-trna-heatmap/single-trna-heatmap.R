@@ -84,9 +84,9 @@ freqs = freqs %>%
 cat_ordering = freqs %>%
   group_by(category) %>% 
   summarize(order = 100 * (unique(category) == "Your Sequence") + # Your Seq first
-                    2 * sum(match == "Match") + # then order by no. matches/subset matches/conflicts
-                    sum(match == "Subset") -
-                    2 * sum(match == "Conflict")) %>%
+                    2 * sum(match == "Match") / length(unique(positions)) + # then order by no. matches/subset matches/conflicts
+                    sum(match == "Subset") / length(unique(positions)) -
+                    2 * sum(match == "Conflict") / length(unique(positions))) %>%
   arrange(order)
 freqs$category = factor(freqs$category, levels=cat_ordering$category)
 
