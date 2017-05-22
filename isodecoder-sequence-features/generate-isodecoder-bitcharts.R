@@ -102,8 +102,13 @@ isodecoders = trnas %>% select(isotype, anticodon) %>% unique()
 for (i in 1:nrow(isodecoders)) {
   current_isotype = isodecoders[i, ]$isotype
   current_anticodon = isodecoders[i, ]$anticodon
-  df = trnas %>% filter(isotype == current_isotype, anticodon == current_anticodon)
-  df = df %>% mutate(num = as.integer(str_match(seqname, '(\\d+)-1$')[, 2])) %>% arrange(num)
+  if (current_isotype != "Undet") {
+    df = trnas %>% filter(isotype == current_isotype, anticodon == current_anticodon)
+    df = df %>% mutate(num = as.integer(str_match(seqname, '(\\d+)-1$')[, 2])) %>% arrange(num)
+  }
+  else {
+    df = trnas %>% filter(isotype %in% c("Undet", "Sup") | str_detect(seqname, "Und"))
+  }
   seqs = df$seq
   names(seqs) = df$seqname
   image_file = paste0('bitcharts/hg19-tRNA-', current_isotype, '-', current_anticodon, '.png')
@@ -112,7 +117,10 @@ for (i in 1:nrow(isodecoders)) {
     print("Image file already exists, skipping")
     next
   }
-  bits = calculate_scores_multiseq(seqs, clade = "Mammalia", isotype = current_isotype, anticodon = current_anticodon)
+
+  if (current_isotype != "Undet") bits = calculate_scores_multiseq(seqs, clade = "Mammalia", isotype = current_isotype, anticodon = current_anticodon)
+  else bits = calculate_scores_multiseq(seqs, clade = "Mammalia", anticodon = current_anticodon)
+  
   if (dim(bits)[1] == 0) {
     print("Failed; most likely due to rare anticodon")
     next
